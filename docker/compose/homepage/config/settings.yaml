@@ -1,0 +1,43 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/settings
+#
+
+title: Minerva
+fullWidth: true
+headerStyle: clean
+statusStyle: dot
+favicon: /images/icon_minerva.png
+background: 
+    image: /images/background_redgalaxy.png
+    opacity: 20
+    brightness: 70
+cardBlur: sm
+theme: dark
+color: gray
+quicklaunch:
+    searchDescriptions: true
+    hideInternetSearch: true
+    hideVisitURL: false
+target: _blank
+hideVersion: true
+language: en
+#providers:
+#  openweathermap: openweathermapapikey
+#  weatherapi: weatherapiapikey
+
+
+layout:
+    main-apps:
+        style: row
+        columns: 3
+        header: false
+    other-apps:
+        style: row
+        columns: 4
+        header: false
+    has-widget:
+        style: row
+        columns: 3
+        header: false
+
