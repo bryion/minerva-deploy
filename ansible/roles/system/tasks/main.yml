@@ -1,0 +1,5 @@
+---
+- include_tasks: passwordless-sudo.yml
+- include_tasks: harden-ssh.yml
+- include_tasks: install-updates.yml
+- include_tasks: hushlogin.yml
