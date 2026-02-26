@@ -24,4 +24,4 @@ ansible-galaxy install -r ansible/requirements.yml
 
 echo "Setup complete." 
 echo "To provision the server, run the following command from the root of the project:"
-echo "source .venv/bin/activate && ansible-playbook ansible/playbook.yml --ask-become-pass"
+echo "source .venv/bin/activate && ansible-playbook -i ansible/inventory ansible/playbook.yml --ask-become-pass"

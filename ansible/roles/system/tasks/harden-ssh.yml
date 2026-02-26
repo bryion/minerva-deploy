@@ -1,4 +1,4 @@
----
+---   
 - name: Harden SSH
   lineinfile:
     dest: "/etc/ssh/sshd_config"
@@ -7,17 +7,17 @@
     state: present
     validate: 'sshd -T -f %s'
     mode: 0644
-  with_items: 
-    - regexp: "^#PasswordAuthentication"
+  loop: # 'loop' is preferred over 'with_items' in modern Ansible
+    - regexp: "^#?PasswordAuthentication" # Matches '#Password...' or 'Password...'
       line: "PasswordAuthentication no"
-    - regexp: "^PermitRootLogin"
+    - regexp: "^#?PermitRootLogin"
       line: "PermitRootLogin no"
-    - regexp: "^Port"
+    - regexp: "^#?Port"
       line: "Port {{ ssh_port }}"
-    - regexp: "^UseDNS"
+    - regexp: "^#?UseDNS"
       line: "UseDNS no"
-    - regexp: "^PermitEmptyPasswords"
+    - regexp: "^#?PermitEmptyPasswords"
       line: "PermitEmptyPasswords no"
-    - regexp: "^ChallengeResponseAuthentication"
+    - regexp: "^#?ChallengeResponseAuthentication"
       line: "ChallengeResponseAuthentication no"
-    
+  notify: Restart SSH Daemon
