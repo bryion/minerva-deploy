@@ -1,3 +1,25 @@
 ansible_host: 192.168.1.19
 ansible_user: bryan
 ansible_ssh_private_key_file: ~/.ssh/minerva_key
+
+username: bryan
+
+shell: /bin/bash
+
+ssh_port: 22
+
+packages:
+  - vim
+  - htop
+  - curl
+  - tmux
+  - neofetch
+  - speedtest-cli
+  - openssh-server
+  - git
+  - iproute2
+  - iotop
+  - apt-transport-https
+  - ca-certificates
+  - gnupg2
+  - software-properties-common

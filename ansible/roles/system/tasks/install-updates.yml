@@ -1,0 +1,10 @@
+---
+- name: Install System Updates
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install Essential Packages
+  apt:
+    name: "{{ packages }}"
+    state: latest

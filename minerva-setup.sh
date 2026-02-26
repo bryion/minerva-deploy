@@ -22,4 +22,6 @@ echo "Installing Python and Ansible dependencies..."
 pip install -r requirements.txt
 ansible-galaxy install -r ansible/requirements.yml
 
-echo "Setup complete! Run 'source .venv/bin/activate' to start working."
+echo "Setup complete." 
+echo "To provision the server, run the following command from the root of the project:"
+echo "source .venv/bin/activate && ansible-playbook ansible/playbook.yml --ask-become-pass"
