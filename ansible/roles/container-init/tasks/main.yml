@@ -1,19 +1,26 @@
----
+# The git module with `force: true` can fail on divergent branches because it
+# may not perform a hard reset. The most robust and idempotent solution is to
+# ensure the destination is clean before cloning. This is inefficient for large
+# repositories but guarantees a pristine state for critical configuration repos.
+- name: "Ensure deployment directory is absent before cloning"
+  ansible.builtin.file:
+    path: "{{ git_dest }}"
+    state: absent
+
 # Clone the entire deployment repository to the target host.
 # This is the standard, most robust method for deploying code from Git.
 # It is simpler and more idempotent than downloading and extracting archives.
 - name: "Clone Minerva deployment repository"
   ansible.builtin.git:
     repo: "https://github.com/bryion/minerva-deploy.git" # Use the git clone URL
-    dest: "/opt/minerva-deploy"
+    dest: "{{ git_dest }}"
     version: "main" # Or a specific tag/commit for production
-    force: true # Ensures the repo is updated to the specified version
 
 # Ensure the cloned repository has the correct file permissions.
 # The git module does not manage ownership, so this must be a separate task.
 - name: "Set ownership for the cloned repository"
   ansible.builtin.file:
-    path: "/opt/minerva-deploy"
+    path: "{{ git_dest }}"
     state: directory
     recurse: true
     owner: "{{ minerva_user }}"
@@ -23,6 +30,6 @@
 # Uses the modern 'docker compose' plugin (v2).
 - name: "Ensure Minerva services are created and running via docker-compose"
   community.docker.docker_compose_v2:
-    project_src: "/opt/minerva-deploy/compose/{{ item }}"
+    project_src: "{{ git_dest }}/compose/{{ item }}"
     state: present
   loop: "{{ containers_startup }}"
