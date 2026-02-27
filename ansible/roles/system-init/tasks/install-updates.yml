@@ -1,0 +1,15 @@
+---
+- name: Install System Updates
+  # Update the apt cache (apt-get update) and perform a full distribution upgrade (apt-get dist-upgrade).
+  # 'autoremove' cleans up unused dependencies after the upgrade.
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: "dist"
+    autoremove: true
+
+- name: Install Essential Packages
+  # Install the list of packages defined in group_vars/all.yml.
+  # state: latest ensures they are installed and updated to the newest version.
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: latest

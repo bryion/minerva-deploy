@@ -1,0 +1,7 @@
+---
+# This handler is triggered when changes are made to the SSH configuration.
+# It ensures the SSH daemon reloads the new settings (e.g., disabling root login).
+- name: Restart SSH Daemon
+  ansible.builtin.service:
+    name: ssh
+    state: restarted

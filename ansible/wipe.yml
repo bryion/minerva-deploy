@@ -1,0 +1,16 @@
+---
+- name: Wipe All Docker Data on Minerva
+  hosts: minerva
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Kill all running containers and prune system
+      ansible.builtin.shell: |
+        if [ -n "$(docker ps -aq)" ]; then
+          docker rm -f $(docker ps -aq)
+        fi
+        docker system prune -a --volumes -f
+        if [ -n "$(docker volume ls -q)" ]; then
+          docker volume rm $(docker volume ls -q)
+        fi

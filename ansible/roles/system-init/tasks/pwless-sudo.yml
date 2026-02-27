@@ -1,0 +1,13 @@
+---
+- name: Configure passwordless sudo for the user '{{ username }}'
+  ansible.builtin.copy:
+    dest: "/etc/sudoers.d/10-{{ username }}"
+    # Grant full sudo access without a password.
+    # Syntax: User Host=(RunAs) NOPASSWD: Commands
+    content: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    owner: root
+    group: root
+    # Sudoers files must be read-only (0440) or sudo will reject them.
+    mode: '0440'
+    # Critical: Validate syntax before saving to prevent locking out the user.
+    validate: /usr/sbin/visudo -cf %s

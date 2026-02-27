@@ -29,7 +29,7 @@ We have bundled the environment creation and dependency installation into a sing
 Run the script from the project root:
 
 ```bash
-bash minerva-setup.sh
+bash scripts/minerva-setup.sh
 ```
 
 ### Step 3: Activate the Environment

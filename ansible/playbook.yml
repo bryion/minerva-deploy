@@ -1,7 +1,14 @@
 ---
 - name: Configure Minerva
-  hosts: all
+  hosts: minerva
   become: true
 
   roles:
-    - system
+    # 1. System Initialization: Updates, SSH hardening, user config, and dependencies
+    - system-init
+
+    # 2. Docker Installation: Installs Docker Engine and Docker Compose plugin
+    - geerlingguy.docker
+
+    # 3. Container Deployment: Copies configs and starts services via Docker Compose
+    - container-init

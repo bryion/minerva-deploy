@@ -1,0 +1,47 @@
+---
+# These should match the directory names in /compose.
+containers_startup:
+  - nginx-proxy-manager
+  - homepage
+  - komodo
+  - dozzle
+  - grafana
+  - cadvisor
+  - node-exporter
+  - prometheus
+
+containers_manual: []
+
+
+# Connection variables
+ansible_host: 192.168.1.19
+ansible_user: bryan
+ansible_ssh_private_key_file: ~/.ssh/minerva_key
+ssh_port: 22
+
+# System configuration
+username: bryan
+shell: /bin/bash
+
+# The system user and group that should own the files.
+# Defaults to the user running the Ansible playbook.
+minerva_user: "{{ ansible_user }}"
+minerva_group: "{{ ansible_user }}"
+
+# Packages to install in the system-init role
+packages:
+  - vim
+  - htop
+  - curl
+  - tmux
+  - neofetch
+  - speedtest-cli
+  - openssh-server
+  - git
+  - iproute2
+  - iotop
+  - apt-transport-https
+  - ca-certificates
+  - gnupg2
+  - software-properties-common
+  - python3-docker
