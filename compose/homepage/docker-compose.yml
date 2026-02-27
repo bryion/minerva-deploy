@@ -11,4 +11,4 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
     environment:
       HOMEPAGE_ALLOWED_HOSTS: 192.168.1.19:3002, nlab.casa, minerva.lab:3002 # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
-    restart: always
+    restart: unless-stopped
