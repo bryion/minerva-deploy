@@ -1,30 +1,28 @@
 ---
-# Create the base directory for all container configurations on the remote host.
-# This ensures the parent directory exists with the correct permissions before copying.
-- name: "Ensure Minerva base directory exists"
-  ansible.builtin.file:
-    path: "/opt/compose"
-    state: directory
-    owner: "{{ minerva_user }}"
-    group: "{{ minerva_group }}"
-    mode: "0755"
+# Clone the entire deployment repository to the target host.
+# This is the standard, most robust method for deploying code from Git.
+# It is simpler and more idempotent than downloading and extracting archives.
+- name: "Clone Minerva deployment repository"
+  ansible.builtin.git:
+    repo: "https://github.com/bryion/minerva-deploy.git" # Use the git clone URL
+    dest: "/opt/minerva-deploy"
+    version: "main" # Or a specific tag/commit for production
+    force: true # Ensures the repo is updated to the specified version
 
-# Copy the local containers directory to the remote host.
-# The trailing slash in 'src' ensures we copy the *contents* of the directory, not the directory itself.
-# mode: "preserve" is crucial to keep executable permissions on scripts (e.g., entrypoint.sh).
-- name: "Recursive copy of project containers directory"
-  ansible.builtin.copy:
-    src: "/Users/bryan/Projects/minerva-deploy/compose/"
-    dest: "/opt/compose"
+# Ensure the cloned repository has the correct file permissions.
+# The git module does not manage ownership, so this must be a separate task.
+- name: "Set ownership for the cloned repository"
+  ansible.builtin.file:
+    path: "/opt/minerva-deploy"
+    state: directory
+    recurse: true
     owner: "{{ minerva_user }}"
     group: "{{ minerva_group }}"
-    mode: "preserve"
-    directory_mode: "0755"
 
 # Iterate through the list of containers defined in 'containers_startup' and bring them up.
 # Uses the modern 'docker compose' plugin (v2).
 - name: "Ensure Minerva services are created and running via docker-compose"
   community.docker.docker_compose_v2:
-    project_src: "/opt/compose/{{ item }}"
+    project_src: "/opt/minerva-deploy/compose/{{ item }}"
     state: present
   loop: "{{ containers_startup }}"
