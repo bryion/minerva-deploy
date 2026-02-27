@@ -9,6 +9,9 @@ containers_startup:
   - cadvisor
   - node-exporter
   - prometheus
+  - mealie
+  - n8n
+  - ntfy
 
 containers_manual: []
 
