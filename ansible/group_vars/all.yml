@@ -31,6 +31,8 @@ shell: /bin/bash
 minerva_user: "{{ ansible_user }}"
 minerva_group: "{{ ansible_user }}"
 
+git_dest: "/opt/minerva-deploy"
+
 # Packages to install in the system-init role
 packages:
   - vim
