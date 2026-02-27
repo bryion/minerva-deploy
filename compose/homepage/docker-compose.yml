@@ -5,10 +5,10 @@ services:
     ports:
       - 3002:3000
     volumes:
-      - /opt/homepage:/app/config # Make sure your local config directory exists
-      - /opt/homepage/images:/app/public/images
+      - homepage:/app/config # Make sure your local config directory exists
+      - homepage/images:/app/public/images
 #      - /media/drive2:/media/drive2
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: nlab.casa # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
+      HOMEPAGE_ALLOWED_HOSTS: 192.168.1.19:3002, nlab.casa, minerva.lab:3002 # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
     restart: always
