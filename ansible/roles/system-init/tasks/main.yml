@@ -1,0 +1,12 @@
+---
+- name: Configure passwordless sudo
+  ansible.builtin.include_tasks: pwless-sudo.yml
+
+- name: Harden SSH configuration
+  ansible.builtin.include_tasks: harden-ssh.yml
+
+- name: Install system updates
+  ansible.builtin.include_tasks: install-updates.yml
+
+- name: Disable login banner (hushlogin)
+  ansible.builtin.include_tasks: hush-login.yml

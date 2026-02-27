@@ -1,0 +1,31 @@
+---   
+- name: Harden SSH
+  ansible.builtin.lineinfile:
+    path: "/etc/ssh/sshd_config"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    # Validate the config before saving to ensure we don't break SSH access.
+    # 'sshd -T -f %s' checks the syntax of the temp file (%s) before overwriting the real one.
+    validate: 'sshd -T -f %s'
+    mode: "0644"
+  loop:
+    # Disable password authentication; force SSH keys
+    - regexp: "^#?PasswordAuthentication"
+      line: "PasswordAuthentication no"
+    # Disable root login for security
+    - regexp: "^#?PermitRootLogin"
+      line: "PermitRootLogin no"
+    # Set the custom SSH port defined in variables
+    - regexp: "^#?Port"
+      line: "Port {{ ssh_port }}"
+    # Disable DNS lookups to speed up login
+    - regexp: "^#?UseDNS"
+      line: "UseDNS no"
+    # Prevent empty passwords
+    - regexp: "^#?PermitEmptyPasswords"
+      line: "PermitEmptyPasswords no"
+    # Disable challenge-response (often used for passwords)
+    - regexp: "^#?ChallengeResponseAuthentication"
+      line: "ChallengeResponseAuthentication no"
+  notify: Restart SSH Daemon
