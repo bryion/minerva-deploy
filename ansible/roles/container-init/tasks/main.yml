@@ -28,4 +28,3 @@
     project_src: "/opt/compose/{{ item }}"
     state: present
   loop: "{{ containers_startup }}"
-  
