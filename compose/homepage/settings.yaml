@@ -22,6 +22,7 @@ quicklaunch:
 target: _blank
 hideVersion: true
 language: en
+base: https://nlab.casa
 #providers:
 #  openweathermap: openweathermapapikey
 #  weatherapi: weatherapiapikey
