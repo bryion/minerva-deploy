@@ -54,6 +54,7 @@ ansible-galaxy collection install community.docker:3.9.0
 
 # Make the playbook runner script executable
 chmod +x scripts/minerva-playbook.sh
+chmod +x scripts/minerva-docker-up.sh
 chmod +x scripts/minerva-wipe.sh
 chmod +x scripts/minerva-alias.sh
 chmod +x scripts/minerva-help.sh

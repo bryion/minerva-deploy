@@ -1,0 +1,10 @@
+# Truncated version of playbook.yml
+# Excludes system-init, geerlingguy.docker
+---
+- name: Configure Minerva
+  hosts: minerva
+  become: true
+
+  roles:
+    # Container Deployment: Copies configs and starts services via Docker Compose
+    - container-init
