@@ -39,3 +39,6 @@ update_alias "minerva-playbook" "alias minerva-playbook='$PROJECT_DIR/scripts/mi
 
 # 2. minerva-wipe
 update_alias "minerva-wipe" "alias minerva-wipe='$PROJECT_DIR/scripts/minerva-wipe.sh'" "$RC_FILE"
+
+# 3. minerva-docker-up
+update_alias "minerva-docker-up" "alias minerva-docker-up='$PROJECT_DIR/scripts/minerva-docker-up.sh'" "$RC_FILE"
