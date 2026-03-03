@@ -3,7 +3,7 @@
 # This ensures the parent directory exists with the correct permissions before copying.
 - name: "Ensure Minerva base directory exists"
   ansible.builtin.file:
-    path: "/opt/compose"
+    path: "/opt/minerva_deploy"
     state: directory
     owner: "{{ minerva_user }}"
     group: "{{ minerva_group }}"
@@ -14,8 +14,8 @@
 # mode: "preserve" is crucial to keep executable permissions on scripts (e.g., entrypoint.sh).
 - name: "Recursive copy of project containers directory"
   ansible.builtin.copy:
-    src: "/Users/bryan/Projects/minerva-deploy/compose/"
-    dest: "/opt/compose"
+    src: "/Users/bryan/Projects/minerva-deploy/compose"
+    dest: "/opt/minerva_deploy"
     owner: "{{ minerva_user }}"
     group: "{{ minerva_group }}"
     mode: "preserve"
@@ -25,6 +25,6 @@
 # Uses the modern 'docker compose' plugin (v2).
 - name: "Ensure Minerva services are created and running via docker-compose"
   community.docker.docker_compose_v2:
-    project_src: "/opt/compose/{{ item }}"
+    project_src: "/opt/minerva_deploy/compose/{{ item }}"
     state: present
   loop: "{{ containers_startup }}"
