@@ -19,7 +19,6 @@ containers_startup:
 
 containers_manual: []
 
-
 # Connection variables
 ansible_host: 192.168.1.19
 ansible_user: bryan

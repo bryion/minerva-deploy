@@ -15,4 +15,3 @@ services:
     healthcheck:
       test: ["CMD", "/usr/bin/check-health"]
       interval: 60s
-      timeout: 10s
