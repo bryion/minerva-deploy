@@ -12,6 +12,10 @@ containers_startup:
   - mealie
   - n8n
   - ntfy
+  - filebrowser
+  - it-tools
+  - uptime-kuma
+  - glances
 
 containers_manual: []
 

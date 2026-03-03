@@ -13,23 +13,13 @@
         href: https://jellyfin.nlab.casa/
         #siteMonitor: http://192.168.1.19:8096
         description: 8096
-    - Nextcloud:
-        icon: nextcloud
-        href: https://nextcloud.nlab.casa/login
-        #siteMonitor: http://192.168.1.19:8484
-        description: 8484
-
+        
 - other-apps:
     - Komodo:
         icon: /images/komodo.png
         href: https://portainer.nlab.casa/
         #ping: http://192.168.1.19:9000
         description: 9000
-#        widget:
-#            type: portainer
-#            url: https://portainer.nlab.casa/
-#            env: 2
-#            key: 
     - Grafana: 
         icon: grafana
         href: https://grafana.nlab.casa/login

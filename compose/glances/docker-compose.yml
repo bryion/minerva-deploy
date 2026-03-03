@@ -1,0 +1,24 @@
+services:
+  glances:
+    container_name: glances
+    image: nicolargo/glances:latest # minimal + fastAPI & docker
+    restart: unless-stopped
+    pid: host
+    network_mode: host
+    tmpfs:
+      - /tmp
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
+      - "./glances.conf:/glances/conf/glances.conf:ro"
+    environment:
+      - "GLANCES_OPT=-w --export prometheus" # 61208 is glances web server, 9091 is prometheus exporter
+    read_only: true
+    privileged: false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:61208/api/4/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

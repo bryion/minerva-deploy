@@ -1,8 +1,8 @@
 version: '3.9'
 services:
-    it-tools:
-        image: 'corentinth/it-tools:latest'
-        ports:
-            - '8888:80'
-        restart: unless-stopped
-        container_name: it-tools
+  it-tools:
+    image: 'corentinth/it-tools:latest'
+    ports:
+      - '8888:80'
+    restart: unless-stopped
+    container_name: it-tools
