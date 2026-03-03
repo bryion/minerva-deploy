@@ -1,0 +1,14 @@
+services:
+  file-browser:
+    image: filebrowser/filebrowser:latest
+    container_name: file-browser
+    user: 1000:1000
+    ports:
+      - 8383:80
+    volumes:
+      - 'filebrowser_config:/config'
+      - 'filebrowser_database:/database'
+      - '/:/srv'
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
