@@ -11,6 +11,7 @@ services:
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
       - TZ=${GENERIC_TIMEZONE}
       - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}
+      - N8N_PROTOCOL=https
       - N8N_PROXY_HOPS=1
     volumes:
       - ./data:/home/node/.n8n
