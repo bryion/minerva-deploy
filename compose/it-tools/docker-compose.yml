@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   it-tools:
     image: 'corentinth/it-tools:latest'
