@@ -13,7 +13,6 @@ containers_startup:
   - n8n
   - ntfy
   - filebrowser
-  - it-tools
   - uptime-kuma
   - glances
 
