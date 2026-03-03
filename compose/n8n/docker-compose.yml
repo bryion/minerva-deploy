@@ -13,6 +13,8 @@ services:
       - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}
       - N8N_PROTOCOL=https
       - N8N_PROXY_HOPS=1
+      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
+      - NODE_ENV=production
     volumes:
       - ./data:/home/node/.n8n
       - ./local-files:/files
