@@ -6,7 +6,7 @@
     - Home Assistant:
         icon: /icons/home-assistant.png
         href: https://hass.nlab.casa/
-        #siteMonitor: http://192.168.1.19:8123
+        siteMonitor: http://192.168.1.19:8123
         description: 8123
 #    - Jellyfin:
 #        icon: /icons/jellyfin.png

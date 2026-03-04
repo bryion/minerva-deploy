@@ -7,7 +7,7 @@ title: Minerva
 fullWidth: true
 headerStyle: clean
 statusStyle: dot
-favicon: /images/logo-n-128.png
+favicon: /images/logo-N-512.png
 
 cardBlur: sm
 theme: dark
@@ -20,7 +20,6 @@ target: _blank
 hideVersion: true
 language: en
 base: https://nlab.casa/
-
 
 # https://gethomepage.dev/configs/settings/#layout
 layout:
