@@ -5,7 +5,7 @@ services:
     ports:
       - 3002:3000
     volumes:
-      - ./:/app/config # Maps current directory to config
+      - ./config:/app/config # Maps current directory to config
       - ./images:/app/public/images # Maps local images folder to public webroot
       - ./icons:/app/public/icons
 #     - /media/drive2:/media/drive2
