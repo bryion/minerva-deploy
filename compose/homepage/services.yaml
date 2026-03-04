@@ -4,89 +4,82 @@
 #
 - main-apps:
     - Home Assistant:
-        icon: home-assistant
+        icon: /icons/home-assistant.png
         href: https://hass.nlab.casa/
         #siteMonitor: http://192.168.1.19:8123
         description: 8123
-    - Jellyfin:
-        icon: jellyfin
-        href: https://jellyfin.nlab.casa/
-        #siteMonitor: http://192.168.1.19:8096
-        description: 8096
+#    - Jellyfin:
+#        icon: /icons/jellyfin.png
+#        href: https://jellyfin.nlab.casa/
+#        #siteMonitor: http://192.168.1.19:8096
+#        description: 8096
         
 - other-apps:
     - Komodo:
-        icon: /images/komodo.png
-        href: https://portainer.nlab.casa/
+        icon: /icons/komodo.png
+        href: https://komodo.nlab.casa/containers
         #ping: http://192.168.1.19:9000
         description: 9000
     - Grafana: 
-        icon: grafana
+        icon: /icons/grafana.png
         href: https://grafana.nlab.casa/login
         #ping: http://192.168.1.19:3000
         description: 3000
     - Glances:
-        icon: glances
+        icon: /icons/glances.png
         href: https://glances.nlab.casa/
         #ping: http://192.168.1.19:61208
         description: 61208
     - Router:
-        icon: router
+        icon: /icons/unifi.png
         href: https://router.nlab.casa/
         #ping: http://192.168.1.1
-        description: BE9300
+        description: Unifi Dream Router 7
     - Dozzle: 
-        icon: dozzle
+        icon: /icons/dozzle.png
         href: https://dozzle.nlab.casa/
         #ping: http://192.168.1.19:9999
         description: 9999
     - File Browser: 
-        icon: filebrowser
+        icon: /icons/filebrowser.png
         href: https://file.nlab.casa/
         #ping: http://192.168.1.19:8383
         description: 8383
     - cAdvisor: 
-        icon: cadvisor
+        icon: /icons/cadvisor.png
         href: https://cadvisor.nlab.casa/
         #ping: http://192.168.1.19:8082
         description: 8082
-    - Pi-hole:
-        icon: pi-hole
-        href: https://pi.nlab.casa/admin/
-        #ping: http://192.168.1.19:86
-        description: 86
-    - SABnzbd:
-        icon: sabnzbd
-        href: https://sabnzbd.nlab.casa/
-        #ping: http://192.168.1.19:8181
-        description: 8181   
-    - Prowlarr:
-        icon: prowlarr
-        href: https://prowlarr.nlab.casa/
-        #ping: http://192.168.1.19:9696
-        description: 9696
-    - Radarr:
-        icon: radarr
-        href: https://radarr.nlab.casa/
-        #ping: http://192.168.1.19:7878
-        description: 7878
-    - Sonarr:
-        icon: sonarr
-        href: https://sonarr.nlab.casa/
-        #ping: http://192.168.1.19:8989
-        description: 8989
+    - Node Exporter: 
+        icon: /icons/node-exporter.png
+        href: https://node.nlab.casa/
+        #ping: http://192.168.1.19:8082
+        description: 9100
+    - Adguard Home:
+        icon: /icons/adguardhome.png
+        href: https://adguard.nlab.casa/
+        #ping: http://192.168.1.19:3333
+        description: 3333
+    - Mealie:
+        icon: /icons/mealie.png
+        href: https://mealie.nlab.casa/
+        #ping: http://192.168.1.19:9925
+        description: 9925
+    - n8n:
+        icon: /icons/n8n.png
+        href: https://n8n.nlab.casa/
+        #ping: http://192.168.1.19:5678
+        description: 5678
+    - ntfy:
+        icon: /icons/ntfy.png
+        href: https://ntfy.nlab.casa/
+        #ping: http://192.168.1.19:2222
+        description: 2222
 
+    
 - has-widget:
-    - Minecraft:
-        icon: minecraft
-        href: http://192.168.1.19:4326
-        #ping: http://192.168.1.19:4326
-        description: 4326
-        widget:
-            type: minecraft
-            url: udp://192.168.1.19:25565
     - Uptime Kuma:
-        icon: uptime-kuma
+        icon: /icons/uptime-kuma.png
         href: https://uptime.nlab.casa/
         #ping: http://192.168.1.19:3001
         description: 3001
@@ -94,25 +87,8 @@
             type: uptimekuma
             url: http://192.168.1.19:3001
             slug: docker
-    - Speedtest Tracker:
-        icon: speedtest-tracker
-        href: https://speedtest.nlab.casa/
-        #ping: http://192.168.1.19:8081
-        description: 8081
-        widget:
-            type: speedtest
-            url: https://speedtest.nlab.casa/
-            bitratePrecision: 0
-    - What's up Docker?:
-        icon: whats-up-docker-light
-        href: https://wud.nlab.casa/
-        #ping: http://192.168.1.19:3535
-        description: 3535
-        widget:
-            type: whatsupdocker
-            url: https://wud.nlab.casa/
     - Prometheus:
-        icon: prometheus
+        icon: /icons/prometheus.png
         href: https://prometheus.nlab.casa/
         #ping: http://192.168.1.19:9090
         description: 9090
@@ -120,17 +96,68 @@
             type: prometheus
             url: https://prometheus.nlab.casa/
     - NGINX Proxy Manager:
-        icon: nginx-proxy-manager
+        icon: /icons/nginx-proxy-manager.png
         href: https://nginx.nlab.casa/
         #ping: http://192.168.1.19:81
         description: 81
-        # server: docker #setup in docker.yaml
-        # container: nginxproxymanager
-        widget:
-            type: npm
-            url: https://nginx.nlab.casa/
-            username: ***REMOVED***
-            password: ***REMOVED***
+#        server: docker #setup in docker.yaml
+#        container: nginxproxymanager
+#        widget:
+#            type: npm
+#            url: https://nginx.nlab.casa/
+#            username: ***REMOVED***
+#            password: ***REMOVED***
+
+#    - Speedtest Tracker:
+#        icon: speedtest-tracker
+#        href: https://speedtest.nlab.casa/
+#        #ping: http://192.168.1.19:8081
+#        description: 8081
+#        widget:
+#            type: speedtest
+#            url: https://speedtest.nlab.casa/
+#            bitratePrecision: 0
+#    - What's up Docker?:
+#        icon: whats-up-docker-light
+#        href: https://wud.nlab.casa/
+#        #ping: http://192.168.1.19:3535
+#        description: 3535
+#        widget:
+#            type: whatsupdocker
+#            url: https://wud.nlab.casa/
+#   - Minecraft:
+#       icon: minecraft
+#       href: http://192.168.1.19:4326
+#       #ping: http://192.168.1.19:4326
+#       description: 4326
+#       widget:
+#           type: minecraft
+#           url: udp://192.168.1.19:25565
+#    - Pi-hole:
+#        icon: pi-hole
+#        href: https://pi.nlab.casa/admin/
+#        #ping: http://192.168.1.19:86
+#        description: 86
+#    - SABnzbd:
+#        icon: sabnzbd
+#        href: https://sabnzbd.nlab.casa/
+#        #ping: http://192.168.1.19:8181
+#        description: 8181   
+#    - Prowlarr:
+#        icon: prowlarr
+#        href: https://prowlarr.nlab.casa/
+#        #ping: http://192.168.1.19:9696
+#        description: 9696
+#    - Radarr:
+#        icon: radarr
+#        href: https://radarr.nlab.casa/
+#        #ping: http://192.168.1.19:7878
+#        description: 7878
+#    - Sonarr:
+#        icon: sonarr
+#        href: https://sonarr.nlab.casa/
+#        #ping: http://192.168.1.19:8989
+#        description: 8989
 
 # >>>>These are all integrated through Glances<<<<
 #- Metrics: 
