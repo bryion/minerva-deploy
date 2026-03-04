@@ -23,7 +23,7 @@
     - Grafana: 
         icon: /icons/grafana.png
         href: https://grafana.nlab.casa/login
-        #ping: http://192.168.1.19:3000
+        #ping: http://192.168.1.19:4000
         description: 3000
     - Glances:
         icon: /icons/glances.png
