@@ -6,7 +6,7 @@
     - Home Assistant:
         icon: /icons/home-assistant.png
         href: https://hass.nlab.casa/
-        siteMonitor: http://192.168.1.19:8123
+#        siteMonitor: http://192.168.1.19:8123
         description: 8123
 #    - Jellyfin:
 #        icon: /icons/jellyfin.png
@@ -24,7 +24,7 @@
         icon: /icons/grafana.png
         href: https://grafana.nlab.casa/login
         #ping: http://192.168.1.19:4000
-        description: 3000
+        description: 4000
     - Glances:
         icon: /icons/glances.png
         href: https://glances.nlab.casa/
@@ -58,8 +58,8 @@
     - Adguard Home:
         icon: /icons/adguardhome.png
         href: https://adguard.nlab.casa/
-        #ping: http://192.168.1.19:3333
-        description: 3333
+        #ping: http://192.168.1.19:4000
+        description: 4000
     - Mealie:
         icon: /icons/mealie.png
         href: https://mealie.nlab.casa/
