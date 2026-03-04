@@ -7,6 +7,7 @@ services:
     volumes:
       - ./:/app/config # Maps current directory to config
       - ./images:/app/public/images # Maps local images folder to public webroot
+      - ./icons:/app/public/icons
 #     - /media/drive2:/media/drive2
       - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
     environment:

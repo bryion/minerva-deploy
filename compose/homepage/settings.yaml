@@ -7,11 +7,8 @@ title: Minerva
 fullWidth: true
 headerStyle: clean
 statusStyle: dot
-favicon: /images/favicon.png
-background: 
-    image: /images/background.png
-    opacity: 20
-    brightness: 70
+favicon: /images/logo-n-128.png
+
 cardBlur: sm
 theme: dark
 color: gray
@@ -22,11 +19,10 @@ quicklaunch:
 target: _blank
 hideVersion: true
 language: en
-#providers:
-#  openweathermap: openweathermapapikey
-#  weatherapi: weatherapiapikey
+base: https://nlab.casa/
 
 
+# https://gethomepage.dev/configs/settings/#layout
 layout:
     main-apps:
         style: row
@@ -41,3 +37,12 @@ layout:
         columns: 3
         header: false
 
+
+#background: 
+#    image: /images/background.png
+#    opacity: 20
+#    brightness: 70
+
+#providers:
+#  openweathermap: openweathermapapikey
+#  weatherapi: weatherapiapikey
