@@ -13,10 +13,10 @@ services:
 #            - 67:67/udp    # add if you intend to use AdGuard Home as a DHCP server.
 #            - 68:68/udp    # add if you intend to use AdGuard Home as a DHCP server.
 #            - 68:68/tcp    # add if you intend to use AdGuard Home as a DHCP server.   
-            - 86:80/tcp    # add if you are going to use AdGuard Home's admin panel as well as run AdGuard Home as an HTTPS/DNS-over-HTTPS server. 
-            - 444:443/tcp    # add if you are going to use AdGuard Home's admin panel as well as run AdGuard Home as an HTTPS/DNS-over-HTTPS server.
-            - 444:443/udp    # add if you are going to use AdGuard Home's admin panel as well as run AdGuard Home as an HTTPS/DNS-over-HTTPS server.
-            - 3000:3000/tcp    # add if you are going to use AdGuard Home's admin panel as well as run AdGuard Home as an HTTPS/DNS-over-HTTPS server.
+            - 880:80/tcp    # add if you are going to use AdGuard Home's admin panel as well as run AdGuard Home as an HTTPS/DNS-over-HTTPS server. 
+            - 8443:443/tcp    # add if you are going to use AdGuard Home's admin panel as well as run AdGuard Home as an HTTPS/DNS-over-HTTPS server.
+            - 8443:443/udp    # add if you are going to use AdGuard Home's admin panel as well as run AdGuard Home as an HTTPS/DNS-over-HTTPS server.
+            - 3000:3000/tcp    # setup interface.
 #            - 853:853/tcp    # add if you are going to run AdGuard Home as a DNS-over-TLS server.
 #            - 784:784/udp    # add if you are going to run AdGuard Home as a DNS-over-QUIC server. You may only leave one or two of these.
 #            - 853:853/udp    # add if you are going to run AdGuard Home as a DNS-over-QUIC server. You may only leave one or two of these.
