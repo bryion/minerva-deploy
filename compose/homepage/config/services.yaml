@@ -58,8 +58,8 @@
     - Adguard Home:
         icon: /icons/adguardhome.png
         href: https://adguard.nlab.casa/
-        #ping: http://192.168.1.19:4000
-        description: 4000
+        #ping: http://192.168.1.19:8181
+        description: 8181
     - Mealie:
         icon: /icons/mealie.png
         href: https://mealie.nlab.casa/
