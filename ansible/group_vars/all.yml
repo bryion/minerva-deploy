@@ -1,6 +1,7 @@
 ---
 # These should match the directory names in /compose.
 containers_startup:
+  - adguardhome 
   - nginx-proxy-manager
   - homepage
   - komodo
@@ -15,7 +16,7 @@ containers_startup:
   - filebrowser
   - uptime-kuma
   - glances
-  - adguardhome
+
 
 containers_manual: []
 

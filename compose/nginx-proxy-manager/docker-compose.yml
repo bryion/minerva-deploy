@@ -16,3 +16,8 @@ services:
     healthcheck:
       test: ["CMD", "/usr/bin/check-health"]
       interval: 60s
+    networks:
+    - adguardhome_default
+networks:
+  adguardhome_default:
+    external: true
