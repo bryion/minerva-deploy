@@ -18,7 +18,6 @@ services:
       interval: 60s
     networks:
       - adguardhome_default
-    # ... other configurations ...
 
 networks:
   adguardhome_default:
