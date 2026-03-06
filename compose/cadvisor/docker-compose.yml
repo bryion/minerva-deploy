@@ -9,9 +9,15 @@ services:
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-      - /dev/disk/:/dev/disk:ro
-#    command:
-#      - '-housekeeping_interval=10s' #cutting cpu usage
-#      - '-docker_only=true'
+      - /dev:/dev:ro
+    command:
+      - '-housekeeping_interval=30s' # sync with prometheus.yml scrape interval
+      - '-docker_only=true'
     restart: unless-stopped
     privileged: true
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    external: true

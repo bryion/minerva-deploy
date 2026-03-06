@@ -9,3 +9,9 @@ services:
     restart: unless-stopped
     volumes:
       - '/:/host:ro,rslave'
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    external: true
