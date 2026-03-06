@@ -3,22 +3,25 @@
 containers_startup:
   - adguardhome 
   - nginx-proxy-manager
-  - homepage
-  - komodo
-  - dozzle
-  - grafana
   - cadvisor
   - node-exporter
   - prometheus
+  - grafana
+  - glances
+  - homepage
+  - komodo
+  - dozzle
+  - uptime-kuma
+  - filebrowser
   - mealie
   - n8n
   - ntfy
-  - filebrowser
-  - uptime-kuma
-  - glances
-
 
 containers_manual: []
+
+docker_networks:
+  - monitoring
+  - networking
 
 # Connection variables
 ansible_host: 192.168.1.19

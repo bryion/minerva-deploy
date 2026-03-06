@@ -7,5 +7,12 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana
     restart: unless-stopped
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    external: true
+
 volumes:
   grafana-storage: {}
