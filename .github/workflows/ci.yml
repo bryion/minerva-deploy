@@ -21,6 +21,11 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+      
+      - name: Install Ansible Galaxy dependencies
+        run: |
+          ansible-galaxy install geerlingguy.docker -p ansible/roles
+          ansible-galaxy collection install community.docker
 
       - name: Run ansible-lint
         run: ansible-lint ansible/playbook.yml
