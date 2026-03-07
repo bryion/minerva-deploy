@@ -39,25 +39,6 @@ ansible-galaxy install geerlingguy.docker -p ansible/roles
 log_step "Installing Ansible Galaxy Collections..."
 ansible-galaxy collection install community.docker:3.9.0
 
-# Make the playbook runner script executable
-chmod +x scripts/minerva-playbook.sh
-chmod +x scripts/minerva-docker-up.sh
 chmod +x scripts/minerva-wipe.sh
-chmod +x scripts/minerva-alias.sh
-chmod +x scripts/minerva-help.sh
-
-# 5. Configure Shell Alias
-log_step "Configuring shell aliases..."
-./scripts/minerva-alias.sh
 
 log_step "Minerva Preparations Complete!"
-
-read -p "Do you want to run the execute playbook.yml now? (y/n): " run_playbook
-if [[ "$run_playbook" =~ ^[Yy] ]]; then
-    # Run the playbook script with sudo password prompt
-    ./scripts/minerva-playbook.sh -K
-fi
-
-echo "Run 'minerva-help' for list of custom commands and usage instructions."
-echo ""
-exec $SHELL # Start a new shell session to apply the alias immediately

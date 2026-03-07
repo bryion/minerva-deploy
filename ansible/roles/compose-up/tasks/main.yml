@@ -1,0 +1,11 @@
+---
+- name: Ensure Docker networks exist
+  community.docker.docker_network:
+    name: "{{ item }}"
+  loop: "{{ compose_up_docker_networks | default([]) }}"
+
+- name: Start services via docker compose up
+  community.docker.docker_compose_v2:
+    project_src: "{{ compose_up_base_dir }}/compose/{{ item }}"
+    state: present
+  loop: "{{ compose_up_services }}"

@@ -34,17 +34,3 @@
   loop: "{{ container_secrets | dict2items }}"
   when: item.key in containers_startup
   notify: "Restart affected services"
-
-# Create Docker networks before starting containers.
-- name: "Ensure Docker networks exist"
-  community.docker.docker_network:
-    name: "{{ item }}"
-  loop: "{{ docker_networks | default([]) }}"
-
-# Iterate through the list of containers defined in 'containers_startup' and bring them up.
-# Uses the modern 'docker compose' plugin (v2).
-- name: "Ensure Minerva services are created and running via docker-compose"
-  community.docker.docker_compose_v2:
-    project_src: "/opt/minerva-deploy/compose/{{ item }}"
-    state: present
-  loop: "{{ containers_startup }}"
