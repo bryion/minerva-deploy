@@ -58,6 +58,7 @@ Role variables are prefixed with the role name:
 6. `scripts/minerva-setup.sh` — not idempotent, not tested; absorb into a role (bootstrap or local_env), demote script to thin wrapper or remove
 7. `.vscode/` in repo root — editor config shouldn't be in a GitOps repo; gitignore it or replace with `.editorconfig`
 8. `:latest` image tags in compose files — reproducibility risk; pin to specific versions (11 services affected)
+9. `harden` role gaps — UFW rules (allow only used ports) and fail2ban/sshguard not yet implemented; add molecule tests asserting UFW active and SSH locked down
 
 ## Deleted / deprecated
 - system-init, container-init: removed, replaced by role pipeline above
