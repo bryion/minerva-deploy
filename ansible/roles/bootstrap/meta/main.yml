@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  role_name: bootstrap
+  author: bryion
+  description: Creates ansible service account and minerva application user
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble

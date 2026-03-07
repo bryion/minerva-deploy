@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Gather ansible user info
+      ansible.builtin.getent:
+        database: passwd
+        key: ansible
+
+    - name: Gather minerva user info
+      ansible.builtin.getent:
+        database: passwd
+        key: minerva
+
+    - name: Assert sudoers file exists with correct permissions
+      ansible.builtin.stat:
+        path: /etc/sudoers.d/10-ansible
+      register: sudoers_file
+
+    - name: Assert sudoers file is present and correct permissions
+      ansible.builtin.assert:
+        that:
+          - sudoers_file.stat.exists
+          - sudoers_file.stat.mode == "0440"
+        fail_msg: "sudoers file missing or wrong permissions"

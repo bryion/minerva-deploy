@@ -1,0 +1,4 @@
+---
+ansible_deploy_user: ansible
+minerva_user: minerva
+minerva_group: minerva
