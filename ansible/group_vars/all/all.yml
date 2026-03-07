@@ -7,6 +7,9 @@ minerva_user: minerva
 minerva_base_dir: /opt/minerva-deploy
 minerva_deploy_user: ansible
 minerva_ssh_port: 22
+compose_username: admin
+minerva_domain: example.com
+minerva_timezone: {{ minerva_timezone }}
 
 # --- Role vars (derived — do not edit) ---
 bootstrap_deploy_user: "{{ minerva_deploy_user }}"
@@ -49,6 +52,47 @@ compose_up_docker_networks:
 compose_sync_secrets:
   nginx-proxy-manager:
     CF_API_TOKEN: "{{ vault_cf_api_token }}"
+  komodo:
+    COMPOSE_KOMODO_IMAGE_TAG: latest
+    COMPOSE_KOMODO_BACKUPS_PATH: ./backups
+    KOMODO_DB_USERNAME: "{{ compose_username }}"
+    KOMODO_DB_PASSWORD: "{{ vault_komodo_db_password }}"
+    KOMODO_PASSKEY: "{{ vault_komodo_passkey }}"
+    TZ: {{ minerva_timezone }}
+    KOMODO_HOST: "https://komodo.{{ minerva_domain }}"
+    KOMODO_TITLE: Komodo
+    KOMODO_FIRST_SERVER: https://periphery:8120
+    KOMODO_FIRST_SERVER_NAME: Minerva
+    KOMODO_DISABLE_CONFIRM_DIALOG: "false"
+    KOMODO_MONITORING_INTERVAL: 15-sec
+    KOMODO_RESOURCE_POLL_INTERVAL: 1-hr
+    KOMODO_WEBHOOK_SECRET: "{{ vault_komodo_webhook_secret }}"
+    KOMODO_JWT_SECRET: "{{ vault_komodo_jwt_secret }}"
+    KOMODO_JWT_TTL: 1-day
+    KOMODO_LOCAL_AUTH: "true"
+    KOMODO_INIT_ADMIN_USERNAME: "{{ compose_username }}"
+    KOMODO_INIT_ADMIN_PASSWORD: "{{ vault_komodo_password }}"
+    KOMODO_DISABLE_USER_REGISTRATION: "false"
+    KOMODO_ENABLE_NEW_USERS: "false"
+    KOMODO_DISABLE_NON_ADMIN_CREATE: "false"
+    KOMODO_TRANSPARENT_MODE: "false"
+    KOMODO_LOGGING_PRETTY: "false"
+    KOMODO_PRETTY_STARTUP_CONFIG: "false"
+    KOMODO_OIDC_ENABLED: "false"
+    KOMODO_GITHUB_OAUTH_ENABLED: "false"
+    KOMODO_GOOGLE_OAUTH_ENABLED: "false"
+    PERIPHERY_ROOT_DIRECTORY: /opt/minerva-deploy/compose/komodo
+    PERIPHERY_PASSKEYS: "{{ vault_komodo_passkey }}"
+    PERIPHERY_DISABLE_TERMINALS: "false"
+    PERIPHERY_SSL_ENABLED: "true"
+    PERIPHERY_INCLUDE_DISK_MOUNTS: /etc/hostname
+    PERIPHERY_LOGGING_PRETTY: "false"
+    PERIPHERY_PRETTY_STARTUP_CONFIG: "false"
+  n8n:
+    DOMAIN_NAME: "{{ minerva_domain }}"
+    SUBDOMAIN: n8n
+    GENERIC_TIMEZONE: {{ minerva_timezone }}
+    SSL_EMAIL: "{{ vault_ssl_email }}"
 
 # === Connection (do not edit — sourced from vault) ===
 ansible_host: 192.168.1.19
