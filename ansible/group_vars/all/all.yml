@@ -10,6 +10,8 @@ minerva_ssh_port: 22
 compose_username: admin
 minerva_domain: example.com
 minerva_timezone: America/Los_Angeles
+# Must be a static IP — assign a DHCP reservation in your router for the server's MAC address
+minerva_ip: 192.168.1.19
 
 # --- Role vars (derived — do not edit) ---
 bootstrap_deploy_user: "{{ minerva_deploy_user }}"
@@ -130,7 +132,7 @@ compose_sync_secrets:
     SSL_EMAIL: "{{ vault_ssl_email }}"
 
 # === Connection (do not edit — sourced from vault) ===
-ansible_host: 192.168.1.19
+ansible_host: "{{ minerva_ip }}"
 ansible_user: "{{ vault_ansible_user }}"
 ansible_ssh_private_key_file: "{{ vault_ssh_private_key_file }}"
 ansible_become_password: "{{ vault_ansible_become_password }}"
