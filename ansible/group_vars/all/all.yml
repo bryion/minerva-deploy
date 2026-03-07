@@ -1,0 +1,28 @@
+# These should match the directory names in /compose.
+containers_startup:
+  - adguardhome 
+  - nginx-proxy-manager
+  - cadvisor
+  - node-exporter
+  - prometheus
+  - grafana
+  - glances
+  - homepage
+  - komodo
+  - dozzle
+  - uptime-kuma
+  - filebrowser
+  - mealie
+  - n8n
+  - ntfy
+
+containers_manual: []
+
+docker_networks:
+  - monitoring
+  - networking
+
+git_dest: "/opt/minerva-deploy"
+
+#System configuration
+ssh_port: 22
