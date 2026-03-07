@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Assert base directory exists
+      ansible.builtin.stat:
+        path: "{{ compose_sync_base_dir }}"
+      register: base_dir
+      failed_when: not base_dir.stat.exists or not base_dir.stat.isdir
+
+    - name: Assert compose directory exists
+      ansible.builtin.stat:
+        path: "{{ compose_sync_base_dir }}/compose"
+      register: compose_dir
+      failed_when: not compose_dir.stat.exists or not compose_dir.stat.isdir

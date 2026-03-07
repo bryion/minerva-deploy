@@ -1,0 +1,10 @@
+---
+- name: Prepare controller
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Create dummy compose source directory on controller
+      ansible.builtin.file:
+        path: /tmp/compose-test
+        state: directory
+        mode: "0755"

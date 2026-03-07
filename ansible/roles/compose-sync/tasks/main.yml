@@ -1,36 +1,42 @@
 ---
-# Create the base directory for all container configurations on the remote host.
-# This ensures the parent directory exists with the correct permissions before copying.
-- name: "Ensure Minerva base directory exists"
+- name: Ensure base directory exists
   ansible.builtin.file:
-    path: "/opt/minerva-deploy"
+    path: "{{ compose_sync_base_dir }}"
     state: directory
-    owner: "{{ minerva_user }}"
-    group: "{{ minerva_group }}"
+    owner: "{{ compose_sync_owner }}"
+    group: "{{ compose_sync_group }}"
     mode: "0755"
 
-# Copy the local containers directory to the remote host.
-# The trailing slash in 'src' ensures we copy the *contents* of the directory, not the directory itself.
-# mode: "preserve" is crucial to keep executable permissions on scripts (e.g., entrypoint.sh).
-- name: "Recursive copy of project containers directory"
+- name: Ensure compose directory exists
+  ansible.builtin.file:
+    path: "{{ compose_sync_base_dir }}/compose"
+    state: directory
+    owner: "{{ compose_sync_owner }}"
+    group: "{{ compose_sync_group }}"
+    mode: "0755"
+
+# src with trailing slash copies the contents of the directory into dest.
+# mode: preserve keeps executable permissions on entrypoint scripts.
+- name: Sync compose directory to remote
   ansible.builtin.copy:
-    src: "/Users/bryan/Projects/minerva-deploy/compose"
-    dest: "/opt/minerva-deploy"
-    owner: "{{ minerva_user }}"
-    group: "{{ minerva_group }}"
-    mode: "preserve"
+    src: "{{ compose_sync_src_dir }}/"
+    dest: "{{ compose_sync_base_dir }}/compose/"
+    owner: "{{ compose_sync_owner }}"
+    group: "{{ compose_sync_group }}"
+    mode: preserve
     directory_mode: "0755"
 
-- name: "Generate .env files for containers with secrets"
+# Write vault-encrypted secrets as .env files.
+# compose_sync_secrets is a dict of service_name -> {KEY: value, ...}
+- name: Write .env files for services with secrets
   ansible.builtin.copy:
-    dest: "{{ git_dest }}/compose/{{ item.key }}/.env"
+    dest: "{{ compose_sync_base_dir }}/compose/{{ item.key }}/.env"
     content: |
-      {% for env_key, env_val in item.value.items() %}
-      {{ env_key }}="{{ env_val }}"
+      {% for k, v in item.value.items() %}
+      {{ k }}="{{ v }}"
       {% endfor %}
-    owner: "{{ minerva_user }}"
-    group: "{{ minerva_group }}"
+    owner: "{{ compose_sync_owner }}"
+    group: "{{ compose_sync_group }}"
     mode: "0600"
-  loop: "{{ container_secrets | dict2items }}"
-  when: item.key in containers_startup
-  notify: "Restart affected services"
+  loop: "{{ compose_sync_secrets | dict2items }}"
+  notify: Restart affected services

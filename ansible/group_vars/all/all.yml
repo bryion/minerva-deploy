@@ -1,6 +1,28 @@
 ---
-# Container configuration
-containers_startup:
+# === User-facing configuration ===
+# Edit only this section to customize your deployment.
+
+# --- Canonical vars (change these) ---
+minerva_user: minerva
+minerva_base_dir: /opt/minerva-deploy
+minerva_deploy_user: ansible
+minerva_ssh_port: 22
+
+# --- Role vars (derived — do not edit) ---
+bootstrap_deploy_user: "{{ minerva_deploy_user }}"
+bootstrap_minerva_user: "{{ minerva_user }}"
+bootstrap_minerva_group: "{{ minerva_user }}"
+harden_minerva_user: "{{ minerva_user }}"
+harden_ssh_port: "{{ minerva_ssh_port }}"
+compose_sync_base_dir: "{{ minerva_base_dir }}"
+compose_sync_owner: "{{ minerva_user }}"
+compose_sync_group: "{{ minerva_user }}"
+compose_up_base_dir: "{{ minerva_base_dir }}"
+
+# --- Services ---
+# compose_up_services: started automatically by the playbook
+# compose_up_manual_services: configs synced but not started (e.g. minecraft)
+compose_up_services:
   - adguardhome
   - nginx-proxy-manager
   - cadvisor
@@ -17,27 +39,19 @@ containers_startup:
   - n8n
   - ntfy
 
-containers_manual: []
+compose_up_manual_services: []
 
-docker_networks:
+compose_up_docker_networks:
   - monitoring
   - networking
 
-# System configuration
-git_dest: "/opt/minerva-deploy"
-harden_ssh_port: 22
-bootstrap_minerva_user: minerva
-bootstrap_minerva_group: minerva
-bootstrap_deploy_user: ansible
-harden_minerva_user: minerva
+# --- Secrets (referenced from vault) ---
+compose_sync_secrets:
+  nginx-proxy-manager:
+    CF_API_TOKEN: "{{ vault_cf_api_token }}"
 
-# Connection
+# === Connection (do not edit — sourced from vault) ===
 ansible_host: 192.168.1.19
 ansible_user: "{{ vault_ansible_user }}"
 ansible_ssh_private_key_file: "{{ vault_ssh_private_key_file }}"
 ansible_become_password: "{{ vault_ansible_become_password }}"
-
-# Secrets (referenced from vault)
-container_secrets:
-  nginx-proxy-manager:
-    CF_API_TOKEN: "{{ vault_cf_api_token }}"
