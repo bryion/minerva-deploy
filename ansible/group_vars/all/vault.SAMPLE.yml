@@ -1,5 +1,18 @@
 ---
+# === Connection ===
 vault_ansible_user: your_username
 vault_ansible_become_password: your_sudo_password
 vault_ssh_private_key_file: ~/.ssh/your_key
+
+# === nginx-proxy-manager ===
 vault_cf_api_token: your_cloudflare_token
+
+# === komodo ===
+vault_komodo_db_password: change_me
+vault_komodo_passkey: change_me
+vault_komodo_webhook_secret: change_me
+vault_komodo_jwt_secret: change_me
+vault_komodo_password: change_me
+
+# === n8n ===
+vault_ssl_email: your_email
