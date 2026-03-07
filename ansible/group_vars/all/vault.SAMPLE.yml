@@ -1,4 +1,3 @@
----
 # These should match the directory names in /compose.
 containers_startup:
   - adguardhome 
@@ -31,6 +30,7 @@ ssh_port: 22
 
 # System configuration
 username: bryan
+password: example_password
 shell: /bin/bash
 
 # The system user and group that should own the files.
