@@ -1,0 +1,4 @@
+---
+compose_up_base_dir: /opt/minerva-deploy
+compose_up_services: []
+compose_up_docker_networks: []

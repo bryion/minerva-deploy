@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  role_name: compose-up
+  author: bryion
+  description: Starts services via docker compose up
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble
+  license: MIT

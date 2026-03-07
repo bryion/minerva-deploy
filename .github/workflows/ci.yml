@@ -27,6 +27,9 @@ jobs:
           ansible-galaxy install geerlingguy.docker -p ansible/roles
           ansible-galaxy collection install community.docker
 
+      - name: Write vault password
+        run: echo "${{ secrets.VAULT_PASSWORD }}" > .vault_pass
+
       - name: Run ansible-lint
         run: ansible-lint ansible/playbook.yml
 
