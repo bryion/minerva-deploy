@@ -205,4 +205,6 @@ vault.yml
 .DS_Store
 .envrc
 .vagrant
+.vagrant/
 .direnv/
+/Users/bryan/Projects/minerva-deploy/.vagrant
