@@ -203,3 +203,6 @@ vault.yml
 
 # macOS system files
 .DS_Store
+.envrc
+.vagrant
+.direnv/
