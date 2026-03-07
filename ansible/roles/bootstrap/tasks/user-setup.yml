@@ -1,0 +1,14 @@
+---
+- name: Ensure group exists
+  ansible.builtin.group:
+    name: "{{ target_group }}"
+    state: present
+
+- name: Ensure user exists
+  ansible.builtin.user:
+    name: "{{ target_user }}"
+    shell: /bin/bash
+    groups: "{{ target_group }}"
+    append: true
+    create_home: true
+    state: present
