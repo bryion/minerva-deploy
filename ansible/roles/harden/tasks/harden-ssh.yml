@@ -1,4 +1,9 @@
 ---
+- name: Ensure sshd privilege separation directory exists
+  ansible.builtin.file:
+    path: /run/sshd
+    state: directory
+    mode: "0755"
 - name: Harden SSH
   ansible.builtin.lineinfile:
     path: "/etc/ssh/sshd_config"
@@ -8,7 +13,6 @@
     # Validate the config before saving to ensure we don't break SSH access.
     # 'sshd -T -f %s' checks the syntax of the temp file (%s) before overwriting the real one.
     validate: 'sshd -T -f %s'
-    mode: "0644"
   loop:
     # Disable password authentication; force SSH keys
     - regexp: "^#?PasswordAuthentication"
@@ -28,4 +32,4 @@
     # Disable challenge-response (often used for passwords)
     - regexp: "^#?ChallengeResponseAuthentication"
       line: "ChallengeResponseAuthentication no"
-  notify: restart sshd
+  notify: restart ssh
