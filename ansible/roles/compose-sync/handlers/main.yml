@@ -1,0 +1,6 @@
+---
+- name: Restart affected services
+  community.docker.docker_compose_v2:
+    project_src: "{{ compose_sync_base_dir }}/compose/{{ item }}"
+    state: restarted
+  loop: "{{ compose_sync_restart_services | default([]) }}"

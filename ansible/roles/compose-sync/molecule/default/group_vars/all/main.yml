@@ -1,0 +1,6 @@
+---
+ansible_user: root
+compose_sync_base_dir: /opt/minerva-deploy
+compose_sync_owner: root
+compose_sync_group: root
+compose_sync_src_dir: /tmp/compose-test

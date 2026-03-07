@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  role_name: compose_up
+  role_name: compose_sync
   author: bryion
-  description: Starts services via docker compose up
+  description: Syncs Docker Compose configs and secrets to the remote host
   min_ansible_version: "2.15"
   platforms:
     - name: Ubuntu
