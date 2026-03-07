@@ -1,6 +1,7 @@
-# These should match the directory names in /compose.
+---
+# Container configuration
 containers_startup:
-  - adguardhome 
+  - adguardhome
   - nginx-proxy-manager
   - cadvisor
   - node-exporter
@@ -22,7 +23,21 @@ docker_networks:
   - monitoring
   - networking
 
+# System configuration
 git_dest: "/opt/minerva-deploy"
+harden_ssh_port: 22
+bootstrap_minerva_user: minerva
+bootstrap_minerva_group: minerva
+bootstrap_deploy_user: ansible
+harden_minerva_user: minerva
 
-#System configuration
-ssh_port: 22
+# Connection
+ansible_host: 192.168.1.19
+ansible_user: "{{ vault_ansible_user }}"
+ansible_ssh_private_key_file: "{{ vault_ssh_private_key_file }}"
+ansible_become_password: "{{ vault_ansible_become_password }}"
+
+# Secrets (referenced from vault)
+container_secrets:
+  nginx-proxy-manager:
+    CF_API_TOKEN: "{{ vault_cf_api_token }}"
