@@ -1,4 +1,4 @@
 {
-    "ansible.python.interpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "ansible.python.interpreterPath": "/Users/bryan/Projects/minerva-deploy/.venv/bin/python",
     "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
 }
