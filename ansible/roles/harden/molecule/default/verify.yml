@@ -1,0 +1,28 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Assert PasswordAuthentication is disabled
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        line: "PasswordAuthentication no"
+        state: present
+      check_mode: true
+      register: result
+      failed_when: result.changed
+
+    - name: Assert PermitRootLogin is disabled
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        line: "PermitRootLogin no"
+        state: present
+      check_mode: true
+      register: result
+      failed_when: result.changed
+
+    - name: Assert hushlogin file exists
+      ansible.builtin.stat:
+        path: "/home/minerva/.hushlogin"
+      register: hush
+      failed_when: not hush.stat.exists

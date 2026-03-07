@@ -1,0 +1,4 @@
+---
+ansible_user: root
+ssh_port: 22
+minerva_user: root

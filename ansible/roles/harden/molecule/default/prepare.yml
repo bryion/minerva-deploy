@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  tasks:
+    - name: Create ssh privilege separation directory
+      ansible.builtin.file:
+        path: /run/ssh
+        state: directory
+        mode: "0755"

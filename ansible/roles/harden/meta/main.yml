@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  role_name: harden
+  author: bryion
+  description: SSH hardening, system updates, login banner suppression
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble
