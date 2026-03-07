@@ -11,7 +11,7 @@ compose_username: admin
 minerva_domain: example.com
 minerva_timezone: America/Los_Angeles
 # Must be a static IP — assign a DHCP reservation in your router for the server's MAC address
-minerva_ip: 192.168.1.19
+minerva_ip: 192.168.1.100
 
 # --- Role vars (derived — do not edit) ---
 bootstrap_deploy_user: "{{ minerva_deploy_user }}"
