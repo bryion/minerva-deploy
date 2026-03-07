@@ -15,4 +15,5 @@ vault_komodo_jwt_secret: change_me
 vault_komodo_password: change_me
 
 # === n8n ===
-vault_ssl_email: your_email
+# Generate with: openssl rand -hex 32
+vault_n8n_encryption_key: change_me

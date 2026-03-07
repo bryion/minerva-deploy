@@ -126,10 +126,13 @@ compose_sync_secrets:
     PERIPHERY_LOGGING_PRETTY: "false"
     PERIPHERY_PRETTY_STARTUP_CONFIG: "false"
   n8n:
-    DOMAIN_NAME: "{{ minerva_domain }}"
-    SUBDOMAIN: n8n
-    GENERIC_TIMEZONE: {{ minerva_timezone }}
-    SSL_EMAIL: "{{ vault_ssl_email }}"
+    # Tells n8n it's behind a reverse proxy serving HTTPS — affects cookie security and redirects
+    N8N_PROTOCOL: https
+    # Full public URL — used to construct webhook URLs shown in the UI
+    WEBHOOK_URL: "https://n8n.{{ minerva_domain }}/"
+    GENERIC_TIMEZONE: "{{ minerva_timezone }}"
+    # Encrypts stored credentials — must be stable; changing it breaks existing credentials
+    N8N_ENCRYPTION_KEY: "{{ vault_n8n_encryption_key }}"
 
 # === Connection (do not edit — sourced from vault) ===
 ansible_host: "{{ minerva_ip }}"
