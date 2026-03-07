@@ -20,7 +20,7 @@ cd "$(dirname "$0")/.."
 # 1. Create the virtual environment if it doesn't exist
 if [ ! -d ".venv" ]; then
     log_step "Creating Python virtual environment (.venv)..."
-    python3 -m venv .venv
+    python3.11 -m venv .venv
 else
     log_step "Virtual environment already exists. Skipping creation."
 fi
@@ -29,22 +29,9 @@ fi
 log_step "Activating the virtual environment..."
 source .venv/bin/activate
 
-# 3. Upgrade pip (removes the warning)
-log_step "Upgrading pip to the latest version..."
-pip install --upgrade pip
-
-# 4. Install dependencies
-log_step "Installing Ansible Core (>=8.0.0)..."
-pip install "ansible>=8.0.0"
-
-log_step "Installing Ansible Lint..."
-pip install ansible-lint 
-
-log_step "Installing Python Docker SDK..."
-pip install docker
-
-log_step "Installing Python Requests library..."
-pip install requests
+# 3. Install items from requirements.txt
+log_step "Installing Python dependencies..."
+pip install -r requirements.txt
 
 log_step "Installing Ansible Galaxy Roles..."
 ansible-galaxy install geerlingguy.docker -p ansible/roles
