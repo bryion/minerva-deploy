@@ -3,11 +3,14 @@
   hosts: minerva
   become: true
   roles:
-    # 1. System Initialization: Updates, SSH hardening, user config, and dependencies
-    - system-init
+    # 1. Bootstrap: Creates ansible and minerva users
+    - bootstrap
 
-    # 2. Docker Installation: Installs Docker Engine and Docker Compose plugin
+    # 2. Harden: SSH hardening, updates, hushlogin
+    - harden
+
+    # 3. Docker Installation: Installs Docker Engine and Docker Compose plugin
     - geerlingguy.docker
 
-    # 3. Container Deployment: Copies configs and starts services via Docker Compose
-    - container-init
+    # 4. Container Deployment: Copies configs and starts services via Docker Compose
+    - compose-sync
