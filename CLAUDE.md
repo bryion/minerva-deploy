@@ -55,6 +55,9 @@ Role variables are prefixed with the role name:
 3. Populate `ansible/group_vars/all/vault.yml` from `vault.SAMPLE.yml` with real secrets
 4. First deploy: run playbook against Minerva in stages (bootstrap+harden first, then full)
 5. Add compose-sync to CI molecule matrix in `.github/workflows/ci.yml`
+6. `scripts/minerva-setup.sh` — not idempotent, not tested; absorb into a role (bootstrap or local_env), demote script to thin wrapper or remove
+7. `.vscode/` in repo root — editor config shouldn't be in a GitOps repo; gitignore it or replace with `.editorconfig`
+8. `:latest` image tags in compose files — reproducibility risk; pin to specific versions (11 services affected)
 
 ## Deleted / deprecated
 - system-init, container-init: removed, replaced by role pipeline above
