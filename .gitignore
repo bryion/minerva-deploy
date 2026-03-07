@@ -190,3 +190,4 @@ cython_debug/
 #.idea/
 
 .DS_Store
+.vault_pass
