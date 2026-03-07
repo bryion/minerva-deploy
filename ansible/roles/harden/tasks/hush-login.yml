@@ -1,0 +1,15 @@
+---
+- name: Suppress Login Message (hushlogin)
+  ansible.builtin.file:
+    path: "/home/{{ item }}/.hushlogin"
+    # Create the file if it doesn't exist to silence the MOTD/login banner
+    state: touch
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: "0644"
+    # Using 'preserve' ensures that if the file already exists, we don't update timestamps.
+    # This keeps the task idempotent (reporting 'ok' instead of 'changed' on subsequent runs).
+    modification_time: preserve
+    access_time: preserve
+  loop:
+    - "{{ username }}"

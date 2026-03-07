@@ -1,0 +1,29 @@
+---
+- name: Install and Update apt Cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 86400  # Skips update if run within the 24 hours
+    upgrade: "dist"     # 'dist' Upgrades all packages; installs/removes dependencies as needed. 'safe' Upgrades only currently installed packages.
+    autoremove: true        # Continues cleaning unused dependencies
+
+- name: Install and Update Packages
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 86400
+    name:
+      - vim
+      - htop
+      - curl
+      - tmux
+      - neofetch
+      - speedtest-cli
+      - openssh-server
+      - git
+      - iproute2
+      - iotop
+      - apt-transport-https
+      - ca-certificates
+      - gnupg2
+      - software-properties-common
+      - python3-docker
+    state: present

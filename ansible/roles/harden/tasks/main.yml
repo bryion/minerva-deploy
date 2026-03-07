@@ -1,0 +1,9 @@
+---
+- name: Install system updates
+  ansible.builtin.include_tasks: install-updates.yml
+
+- name: Harden SSH configuration
+  ansible.builtin.include_tasks: harden-ssh.yml
+
+- name: Disable login banner
+  ansible.builtin.include_tasks: hush-login.yml
