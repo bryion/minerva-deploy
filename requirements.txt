@@ -1,0 +1,6 @@
+ansible>=8.0.0
+ansible-lint
+docker
+requests
+molecule
+molecule-plugins[docker]
