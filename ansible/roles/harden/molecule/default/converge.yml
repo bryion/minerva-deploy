@@ -3,10 +3,10 @@
   hosts: all
   become: true
   vars:
-    minerva_user: minerva
+    harden_minerva_user: minerva
   pre_tasks:
     - name: Create minerva user
       ansible.builtin.user:
-        name: "{{ minerva_user }}"
+        name: "{{ harden_minerva_user }}"
   roles:
     - role: harden
