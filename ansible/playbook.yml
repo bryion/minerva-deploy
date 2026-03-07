@@ -12,5 +12,8 @@
     # 3. Docker Installation: Installs Docker Engine and Docker Compose plugin
     - geerlingguy.docker
 
-    # 4. Container Deployment: Copies configs and starts services via Docker Compose
+    # 4. Container Deployment: Syncs configs, networks, and .env secrets
     - compose-sync
+
+    # 5. Compose Up: Starts services via docker compose up
+    - compose-up
