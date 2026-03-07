@@ -9,7 +9,7 @@ minerva_deploy_user: ansible
 minerva_ssh_port: 22
 compose_username: admin
 minerva_domain: example.com
-minerva_timezone: {{ minerva_timezone }}
+minerva_timezone: America/Los_Angeles
 
 # --- Role vars (derived — do not edit) ---
 bootstrap_deploy_user: "{{ minerva_deploy_user }}"
@@ -53,38 +53,73 @@ compose_sync_secrets:
   nginx-proxy-manager:
     CF_API_TOKEN: "{{ vault_cf_api_token }}"
   komodo:
+    # Image tag — pin to a version for stability, e.g. 'v1.16.0'
     COMPOSE_KOMODO_IMAGE_TAG: latest
     COMPOSE_KOMODO_BACKUPS_PATH: ./backups
+
+    # Database credentials — MongoDB running in the same compose project
     KOMODO_DB_USERNAME: "{{ compose_username }}"
     KOMODO_DB_PASSWORD: "{{ vault_komodo_db_password }}"
+
+    # Shared secret authenticating Core ↔ Periphery — must match PERIPHERY_PASSKEYS
     KOMODO_PASSKEY: "{{ vault_komodo_passkey }}"
-    TZ: {{ minerva_timezone }}
+
+    TZ: "{{ minerva_timezone }}"
+
+    # Public URL where Komodo is reachable — used for OAuth redirects and webhook suggestions
     KOMODO_HOST: "https://komodo.{{ minerva_domain }}"
     KOMODO_TITLE: Komodo
+
+    # Periphery agent address — 'periphery' resolves via Docker Compose service name
     KOMODO_FIRST_SERVER: https://periphery:8120
     KOMODO_FIRST_SERVER_NAME: Minerva
+
+    # Replaces confirmation dialogs with double-click — useful on http (clipboard API unavailable)
     KOMODO_DISABLE_CONFIRM_DIALOG: "false"
+
+    # How often servers are polled for health/stats/container status
     KOMODO_MONITORING_INTERVAL: 15-sec
+    # How often resources are polled for automated actions (e.g. auto-update)
     KOMODO_RESOURCE_POLL_INTERVAL: 1-hr
+
+    # Used to validate incoming git webhooks — configure the same value on your git provider
     KOMODO_WEBHOOK_SECRET: "{{ vault_komodo_webhook_secret }}"
+
+    # Signs JWTs — if empty, a random secret is generated at startup (users must re-login on restart)
     KOMODO_JWT_SECRET: "{{ vault_komodo_jwt_secret }}"
     KOMODO_JWT_TTL: 1-day
+
+    # Username/password login — set false to force SSO only
     KOMODO_LOCAL_AUTH: "true"
+    # Only applied on first launch — has no effect if user already exists
     KOMODO_INIT_ADMIN_USERNAME: "{{ compose_username }}"
     KOMODO_INIT_ADMIN_PASSWORD: "{{ vault_komodo_password }}"
+
+    # New signups require admin approval unless KOMODO_ENABLE_NEW_USERS is true
     KOMODO_DISABLE_USER_REGISTRATION: "false"
     KOMODO_ENABLE_NEW_USERS: "false"
+
+    # Restricts resource creation to admins only
     KOMODO_DISABLE_NON_ADMIN_CREATE: "false"
+    # Gives all users read access to all resources
     KOMODO_TRANSPARENT_MODE: "false"
+
     KOMODO_LOGGING_PRETTY: "false"
     KOMODO_PRETTY_STARTUP_CONFIG: "false"
+
+    # SSO — disabled by default; enable and configure if using OIDC/GitHub/Google login
     KOMODO_OIDC_ENABLED: "false"
     KOMODO_GITHUB_OAUTH_ENABLED: "false"
     KOMODO_GOOGLE_OAUTH_ENABLED: "false"
+
+    # Periphery agent config — runs alongside Core in the same compose project
     PERIPHERY_ROOT_DIRECTORY: /opt/minerva-deploy/compose/komodo
+    # Must include KOMODO_PASSKEY to authenticate with Core
     PERIPHERY_PASSKEYS: "{{ vault_komodo_passkey }}"
     PERIPHERY_DISABLE_TERMINALS: "false"
+    # Self-signed TLS between Core and Periphery containers
     PERIPHERY_SSL_ENABLED: "true"
+    # Prevents disk size overreporting on Linux — /etc/hostname scopes to root disk only
     PERIPHERY_INCLUDE_DISK_MOUNTS: /etc/hostname
     PERIPHERY_LOGGING_PRETTY: "false"
     PERIPHERY_PRETTY_STARTUP_CONFIG: "false"
