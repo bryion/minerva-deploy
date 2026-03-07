@@ -9,6 +9,17 @@ ansible/group_vars/all/vault.yml
 # === Compose secrets ===
 compose/**/.env
 
+# === Compose runtime data (never commit) ===
+compose/**/data/
+compose/**/backups/
+compose/**/letsencrypt/
+compose/**/mealie-data/
+compose/**/periphery_data/
+compose/**/filebrowser_database/
+compose/**/work/
+# Keep config, assets, and structure
+!compose/**/.gitkeep
+
 # === Python ===
 .venv/
 __pycache__/
