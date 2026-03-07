@@ -9,10 +9,10 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
     restart: unless-stopped
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
     networks:
       - monitoring
+    extra_hosts:
+      - "node_exporter:host-gateway"
 
 networks:
   monitoring:
