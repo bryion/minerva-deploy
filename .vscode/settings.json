@@ -1,4 +1,23 @@
 {
-    "ansible.python.interpreterPath": "/Users/bryan/Projects/minerva-deploy/.venv/bin/python",
+    // Point to the Python interpreter in your virtual environment
     "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+
+    // Ensure the Ansible extension uses the correct paths
+    "ansible.ansible.path": "${workspaceFolder}/.venv/bin/ansible",
+    "ansible.python.interpreterPath": "${workspaceFolder}/.venv/bin/python",
+
+    // File associations for Jinja2 templates
+    "files.associations": {
+        "**/*.j2": "jinja2",
+        "**/templates/*.j2": "ansible-jinja"
+    },
+
+    // Enable linting and auto-formatting
+    "ansible.validation.lint.enabled": true,
+    "ansible.validation.enabled": true,
+    "yaml.format.enable": true,
+
+    // Recommended for YAML/Ansible readability
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
 }
