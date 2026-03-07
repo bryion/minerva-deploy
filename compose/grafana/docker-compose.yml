@@ -5,6 +5,7 @@ services:
     ports:
       - "4000:3000"
     volumes:
+      - ./dashboards:/var/lib/grafana/dashboards
       - grafana-storage:/var/lib/grafana
     restart: unless-stopped
     networks:
