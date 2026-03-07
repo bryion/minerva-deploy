@@ -1,4 +1,4 @@
 ---
-ansible_deploy_user: ansible
-minerva_user: minerva
-minerva_group: minerva
+bootstrap_deploy_user: ansible
+bootstrap_minerva_user: minerva
+bootstrap_minerva_group: minerva

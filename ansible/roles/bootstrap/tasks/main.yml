@@ -2,16 +2,16 @@
 - name: Create minerva application user
   ansible.builtin.include_tasks: user-setup.yml
   vars:
-    target_user: "{{ minerva_user }}"
-    target_group: "{{ minerva_group }}"
+    target_user: "{{ bootstrap_minerva_user }}"
+    target_group: "{{ bootstrap_minerva_group }}"
 
 - name: Create ansible service account
   ansible.builtin.include_tasks: user-setup.yml
   vars:
-    target_user: "{{ ansible_deploy_user }}"
-    target_group: "{{ ansible_deploy_user }}"
+    target_user: "{{ bootstrap_deploy_user }}"
+    target_group: "{{ bootstrap_deploy_user }}"
 
 - name: Configure passwordless sudo for ansible service account
   ansible.builtin.include_tasks: pwless-sudo.yml
   vars:
-    target_user: "{{ ansible_deploy_user }}"
+    target_user: "{{ bootstrap_deploy_user }}"

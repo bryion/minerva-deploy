@@ -1,4 +1,4 @@
 ---
 ansible_user: root
-ssh_port: 22
-minerva_user: root
+harden_ssh_port: 22
+harden_minerva_user: root
