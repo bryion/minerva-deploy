@@ -139,6 +139,10 @@ All notable changes to this project will be documented in this file.
 
 - **changelog:** Update CHANGELOG.md [skip ci]
 
+- **changelog:** Update CHANGELOG.md [skip ci]
+
+- **compose-up:** Add molecule tests for network and service startup
+
 
 ### Add
 
