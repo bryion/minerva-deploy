@@ -62,6 +62,8 @@ All notable changes to this project will be documented in this file.
 
 - **changelog:** Add git-cliff config and GitHub workflow for auto-generated changelogs
 
+- Add compose-up to molecule matrix and enable Dependabot
+
 
 ### Documentation
 
@@ -134,6 +136,8 @@ All notable changes to this project will be documented in this file.
 - **gitignore:** Exclude compose runtime data dirs, keep .gitkeeps
 
 - Harden molecule tests, untrack .vscode, add compose-sync to CI
+
+- **changelog:** Update CHANGELOG.md [skip ci]
 
 
 ### Add
