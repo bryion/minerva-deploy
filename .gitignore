@@ -62,3 +62,6 @@ __pypackages__/
 *.tgz
 *.manifest
 *.spec
+.claude/
+.claude
+claude.md.local
