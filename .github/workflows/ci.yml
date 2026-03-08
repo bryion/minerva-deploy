@@ -41,6 +41,7 @@ jobs:
         role:
           - bootstrap
           - harden
+          - compose-sync
     steps:
       - uses: actions/checkout@v4
 
