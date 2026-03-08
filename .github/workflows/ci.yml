@@ -42,6 +42,7 @@ jobs:
           - bootstrap
           - harden
           - compose-sync
+          - compose-up
     steps:
       - uses: actions/checkout@v4
 
