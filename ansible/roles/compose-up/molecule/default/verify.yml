@@ -1,0 +1,27 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Inspect test Docker network
+      community.docker.docker_network_info:
+        name: test-network
+      register: network_info
+
+    - name: Assert test network exists
+      ansible.builtin.assert:
+        that:
+          - network_info.exists
+        fail_msg: "Docker network 'test-network' was not created"
+
+    - name: List running containers matching testapp
+      ansible.builtin.command:
+        cmd: docker ps --filter name=testapp --format "{{ '{{' }}.Names{{ '}}' }}"
+      register: docker_ps
+      changed_when: false
+
+    - name: Assert testapp container is running
+      ansible.builtin.assert:
+        that:
+          - "'testapp' in docker_ps.stdout"
+        fail_msg: "testapp container not found in running containers"
