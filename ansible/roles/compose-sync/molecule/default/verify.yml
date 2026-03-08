@@ -14,3 +14,40 @@
         path: "{{ compose_sync_base_dir }}/compose"
       register: compose_dir
       failed_when: not compose_dir.stat.exists or not compose_dir.stat.isdir
+
+    - name: Assert compose file was copied
+      ansible.builtin.stat:
+        path: "{{ compose_sync_base_dir }}/compose/testapp/compose.yml"
+      register: compose_file
+      failed_when: not compose_file.stat.exists
+
+    - name: Assert .env file exists with correct permissions
+      ansible.builtin.stat:
+        path: "{{ compose_sync_base_dir }}/compose/testapp/.env"
+      register: env_file
+
+    - name: Verify .env file properties
+      ansible.builtin.assert:
+        that:
+          - env_file.stat.exists
+          - env_file.stat.mode == "0600"
+        fail_msg: ".env file missing or wrong permissions (expected 0600)"
+
+    - name: Read .env file content
+      ansible.builtin.slurp:
+        src: "{{ compose_sync_base_dir }}/compose/testapp/.env"
+      register: env_content
+
+    - name: Assert .env file contains expected secrets
+      ansible.builtin.assert:
+        that:
+          - "'SECRET_KEY=\"test-secret-value\"' in env_content.content | b64decode"
+          - "'DB_PASSWORD=\"test-db-pass\"' in env_content.content | b64decode"
+        fail_msg: ".env file does not contain expected secrets"
+
+    - name: Assert directory ownership
+      ansible.builtin.assert:
+        that:
+          - base_dir.stat.pw_name == "root"
+          - base_dir.stat.gr_name == "root"
+        fail_msg: "Base directory has wrong ownership"

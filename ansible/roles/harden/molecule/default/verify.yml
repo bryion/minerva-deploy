@@ -21,6 +21,42 @@
       register: result
       failed_when: result.changed
 
+    - name: Assert UseDNS is disabled
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        line: "UseDNS no"
+        state: present
+      check_mode: true
+      register: result
+      failed_when: result.changed
+
+    - name: Assert PermitEmptyPasswords is disabled
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        line: "PermitEmptyPasswords no"
+        state: present
+      check_mode: true
+      register: result
+      failed_when: result.changed
+
+    - name: Assert ChallengeResponseAuthentication is disabled
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        line: "ChallengeResponseAuthentication no"
+        state: present
+      check_mode: true
+      register: result
+      failed_when: result.changed
+
+    - name: Assert SSH port is configured
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        line: "Port 22"
+        state: present
+      check_mode: true
+      register: result
+      failed_when: result.changed
+
     - name: Assert hushlogin file exists
       ansible.builtin.stat:
         path: "/home/minerva/.hushlogin"

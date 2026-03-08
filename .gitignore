@@ -51,6 +51,9 @@ __pypackages__/
 .vagrant/
 .direnv/
 
+# === Editor ===
+.vscode/
+
 # === Misc ===
 *.tmp
 *.log

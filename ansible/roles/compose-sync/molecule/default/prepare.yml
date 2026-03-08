@@ -5,6 +5,15 @@
   tasks:
     - name: Create dummy compose source directory on controller
       ansible.builtin.file:
-        path: /tmp/compose-test
+        path: /tmp/compose-test/testapp
         state: directory
         mode: "0755"
+
+    - name: Create dummy compose file on controller
+      ansible.builtin.copy:
+        dest: /tmp/compose-test/testapp/compose.yml
+        mode: "0644"
+        content: |
+          services:
+            testapp:
+              image: alpine:latest

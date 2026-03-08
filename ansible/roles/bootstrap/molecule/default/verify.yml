@@ -3,15 +3,35 @@
   hosts: all
   become: true
   tasks:
-    - name: Gather ansible user info
+    - name: Gather user info
       ansible.builtin.getent:
         database: passwd
-        key: ansible
 
-    - name: Gather minerva user info
-      ansible.builtin.getent:
-        database: passwd
-        key: minerva
+    - name: Assert ansible user has bash shell
+      ansible.builtin.assert:
+        that:
+          - "'ansible' in getent_passwd"
+          - "getent_passwd['ansible'][5] == '/bin/bash'"
+        fail_msg: "ansible user missing or does not have /bin/bash shell"
+
+    - name: Assert minerva user has bash shell
+      ansible.builtin.assert:
+        that:
+          - "'minerva' in getent_passwd"
+          - "getent_passwd['minerva'][5] == '/bin/bash'"
+        fail_msg: "minerva user missing or does not have /bin/bash shell"
+
+    - name: Assert ansible home directory exists
+      ansible.builtin.stat:
+        path: /home/ansible
+      register: ansible_home
+      failed_when: not ansible_home.stat.exists or not ansible_home.stat.isdir
+
+    - name: Assert minerva home directory exists
+      ansible.builtin.stat:
+        path: /home/minerva
+      register: minerva_home
+      failed_when: not minerva_home.stat.exists or not minerva_home.stat.isdir
 
     - name: Assert sudoers file exists with correct permissions
       ansible.builtin.stat:
@@ -24,3 +44,10 @@
           - sudoers_file.stat.exists
           - sudoers_file.stat.mode == "0440"
         fail_msg: "sudoers file missing or wrong permissions"
+
+    - name: Assert passwordless sudo works for ansible user
+      ansible.builtin.command:
+        cmd: sudo -n -u root true
+      become: true
+      become_user: ansible
+      changed_when: false
