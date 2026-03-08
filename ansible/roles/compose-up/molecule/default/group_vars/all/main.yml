@@ -1,0 +1,7 @@
+---
+ansible_user: root
+compose_up_base_dir: /opt/minerva-deploy
+compose_up_services:
+  - testapp
+compose_up_docker_networks:
+  - test-network
