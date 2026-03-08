@@ -1,74 +1,111 @@
 # Minerva Deploy
 
-A unified Infrastructure-as-Code (IaC) monorepo for deploying and managing the Minerva homeserver infrastructure. This project leverages **Ansible** for configuration management and **Docker Compose** for service orchestration, targeting **Ubuntu 24.04** bare metal servers.
+Minerva is a self-hosted homeserver stack running on a bare-metal Ubuntu 24.04 machine on your LAN. This repo provisions the server from scratch and keeps it in sync — security hardening, Docker engine, and all services — using Ansible and Docker Compose.
 
-It replaces legacy manual workflows with a secure, idempotent, and test-driven deployment pipeline.
+**Deployed services:** AdGuard Home, Caddy (via Nginx Proxy Manager), Mealie, n8n, Komodo, Grafana + Prometheus + cAdvisor + Node Exporter, Dozzle, Glances, File Browser, Uptime Kuma, ntfy, Homepage.
 
-## Architecture & Stack
-
-*   **Orchestration:** Ansible Core (running in a local Python virtual environment).
-*   **Target OS:** Ubuntu 24.04 LTS.
-*   **Services:** Docker Compose (GitOps-style config sync).
-*   **Testing:** Molecule with Docker driver.
-*   **Security:**
-    *   **Three-User Model:**
-        *   `operator`: You (local developer).
-        *   `ansible`: Service account with passwordless sudo (provisioned during bootstrap).
-        *   `minerva`: Application user owning the Docker stack (no sudo).
-    *   **Secrets:** Encrypted via Ansible Vault; injected as `.env` files at runtime.
-    *   **Hardening:** SSH lockdown, UFW firewall management.
+---
 
 ## Prerequisites
 
-### Target Server
-*   A fresh install of **Ubuntu 24.04**.
-*   **SSH Access:** You must have an SSH public key installed for the initial root/admin user.
-*   **Static IP:** Recommended for stable service addressing.
+### Target server
+- Fresh **Ubuntu 24.04** install (bare metal or VM)
+- SSH public key installed for an initial sudo user
+- Static LAN IP assigned
 
-### Local Control Node
-*   **Git**
-*   **Python 3.11+**
-*   **Docker** (Required for running Molecule tests locally).
+### Local machine (control node)
+- macOS or Linux
+- **Git**
+- **Python 3.11+**
+- **Docker** (for running Molecule tests locally)
 
-## Installation & Setup
+---
 
-We use a strictly pinned Python Virtual Environment to ensure all developers use the exact same versions of Ansible and its dependencies.
+## Setup
 
-### 1. Clone the Repository
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/bryion/minerva-deploy.git
 cd minerva-deploy
 ```
 
-### Step 2: Run the Setup Script
-We have bundled the environment creation and dependency installation into a single script. This will:
-1.  Create a hidden `.venv` directory.
-2.  Upgrade `pip` to the latest version.
-3.  Install all Python tools (Ansible, Docker SDK, Linting).
-4.  Install required Ansible Collections (e.g., `community.docker`).
-
-Run the script from the project root:
+### 2. Create the Python environment
 
 ```bash
 bash scripts/minerva-setup.sh
 ```
 
-### Step 3: Activate the Environment
-**Important:** You must run this command **every time** you open a new terminal window to work on this project. It tells your shell to use the tools inside the `.venv` folder instead of your global system tools.
+This creates `.venv/`, installs Ansible and dependencies, and installs required Ansible collections.
+
+### 3. Activate the environment
+
+Run this every time you open a new terminal:
 
 ```bash
 source .venv/bin/activate
 ```
 
-*You will know it is active when you see `(.venv)` appear at the start of your command prompt.*
+You'll see `(.venv)` in your prompt when it's active.
 
-### Verification
-To confirm everything is working and your SSH connection is valid, run:
+### 4. Configure
+
+Edit `ansible/group_vars/all/all.yml` — this is the single config file. Set your server IP, domain, timezone, and which services to auto-start.
+
+Copy `ansible/group_vars/all/vault.SAMPLE.yml` to `vault.yml`, fill in secrets, then encrypt it:
+
+```bash
+ansible-vault encrypt ansible/group_vars/all/vault.yml
+```
+
+### 5. Verify connectivity
 
 ```bash
 ansible minerva -m ping
 ```
 
-**Expected Output:**
-`minerva | SUCCESS => { ... "ping": "pong" }`
+Expected: `minerva | SUCCESS => { ... "ping": "pong" }`
+
+---
+
+## Deployment
+
+Run the full playbook:
+
+```bash
+ansible-playbook ansible/playbook.yml
+```
+
+The pipeline runs in order: **bootstrap → harden → docker → compose-sync → compose-up**
+
+To run only specific stages use tags or limit to roles as needed.
+
+---
+
+## Architecture
+
+| Layer | Tool |
+|---|---|
+| Config management | Ansible Core (local `.venv`) |
+| Service orchestration | Docker Compose |
+| Testing | Molecule (Docker driver) |
+| Secrets | Ansible Vault → `.env` files at runtime |
+
+**Three-user model on the server:**
+- `bryan` — your operator account (initial SSH login)
+- `ansible` — service account with passwordless sudo (created by bootstrap)
+- `minerva` — app user that owns `/opt/minerva-deploy` (no sudo)
+
+---
+
+## Testing
+
+```bash
+# Test a single role
+cd ansible/roles/bootstrap && molecule test
+
+# Lint
+ansible-lint
+```
+
+CI runs ansible-lint and Molecule on every push (see `.github/workflows/`).
