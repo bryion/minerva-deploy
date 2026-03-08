@@ -1,18 +1,40 @@
 # Minerva Deploy
 
-A unified monorepo for deploying and managing the Minerva homeserver infrastructure using Ansible and Docker. This project replaces the legacy `docker-minerva` and `ansible-minerva` repositories with a cleaner, more secure workflow.
+A unified Infrastructure-as-Code (IaC) monorepo for deploying and managing the Minerva homeserver infrastructure. This project leverages **Ansible** for configuration management and **Docker Compose** for service orchestration, targeting **Ubuntu 24.04** bare metal servers.
+
+It replaces legacy manual workflows with a secure, idempotent, and test-driven deployment pipeline.
+
+## Architecture & Stack
+
+*   **Orchestration:** Ansible Core (running in a local Python virtual environment).
+*   **Target OS:** Ubuntu 24.04 LTS.
+*   **Services:** Docker Compose (GitOps-style config sync).
+*   **Testing:** Molecule with Docker driver.
+*   **Security:**
+    *   **Three-User Model:**
+        *   `operator`: You (local developer).
+        *   `ansible`: Service account with passwordless sudo (provisioned during bootstrap).
+        *   `minerva`: Application user owning the Docker stack (no sudo).
+    *   **Secrets:** Encrypted via Ansible Vault; injected as `.env` files at runtime.
+    *   **Hardening:** SSH lockdown, UFW firewall management.
+
+## Prerequisites
+
+### Target Server
+*   A fresh install of **Ubuntu 24.04**.
+*   **SSH Access:** You must have an SSH public key installed for the initial root/admin user.
+*   **Static IP:** Recommended for stable service addressing.
+
+### Local Control Node
+*   **Git**
+*   **Python 3.11+**
+*   **Docker** (Required for running Molecule tests locally).
 
 ## Installation & Setup
 
-This project uses a **Python Virtual Environment** to ensure all developers use the exact same versions of Ansible and Docker tools. This prevents conflicts with your system-wide packages.
+We use a strictly pinned Python Virtual Environment to ensure all developers use the exact same versions of Ansible and its dependencies.
 
-### Prerequisites
-*   **Git**
-*   **Python 3** (and `pip`)
-*   **SSH Access** to the target server (ensure your public key is on the server)
-
-### Step 1: Clone the Repository
-Download the project to your local machine.
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/bryion/minerva-deploy.git
