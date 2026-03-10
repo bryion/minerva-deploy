@@ -144,6 +144,19 @@ bootstrap_minerva_user: "{{ minerva_user }}"
 bootstrap_minerva_group: "{{ minerva_user }}"
 harden_minerva_user: "{{ minerva_user }}"
 harden_ssh_port: "{{ minerva_ssh_port }}"
+harden_ufw_enabled: true
+harden_ufw_allowed_tcp_ports:
+  - "{{ minerva_ssh_port }}"
+  - "53"
+  - "80"
+  - "81"
+  - "443"
+harden_ufw_allowed_udp_ports:
+  - "53"
+harden_fail2ban_enabled: true
+harden_fail2ban_bantime: 1h
+harden_fail2ban_findtime: 10m
+harden_fail2ban_maxretry: 5
 compose_sync_base_dir: "{{ minerva_base_dir }}"
 compose_sync_owner: "{{ minerva_user }}"
 compose_sync_group: "{{ minerva_user }}"
