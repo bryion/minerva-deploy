@@ -8,7 +8,7 @@ body = """
 {% endif %}\
 {% for commit in commits %}
 - {{ commit.message | split(pat=":") | last | trim | upper_first }}\
-{% if commit.github.pr_number %} [#{{ commit.github.pr_number }}](https://github.com/bryion/nlab-wiki/pull/{{ commit.github.pr_number }}){% endif %}
+{% if commit.github.pr_number %} [#{{ commit.github.pr_number }}](https://github.com/bryion/minerva-deploy/pull/{{ commit.github.pr_number }}){% endif %}
 {% endfor %}
 """
 trim = true
@@ -34,4 +34,4 @@ commit_parsers = [
 
 [remote.github]
 owner = "bryion"
-repo = "nlab-wiki"
+repo = "minerva-deploy"
