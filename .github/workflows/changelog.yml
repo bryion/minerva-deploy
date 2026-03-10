@@ -7,14 +7,17 @@ on:
 
 jobs:
   changelog:
-    name: Update CHANGELOG.md
-    runs-on: ubuntu-24.04
+    name: Generate changelog
+    runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: read
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Generate changelog
         uses: orhun/git-cliff-action@v4
@@ -22,11 +25,15 @@ jobs:
           config: cliff.toml
           args: --verbose
         env:
-          OUTPUT: CHANGELOG.md
+          OUTPUT: docs/meta/changelog.md
           GITHUB_REPO: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit changelog
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore(changelog): update CHANGELOG.md [skip ci]"
-          file_pattern: CHANGELOG.md
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          set +e
+          git add docs/meta/changelog.md
+          git commit -m "Update changelog"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git main
