@@ -3,3 +3,8 @@
   ansible.builtin.service:
     name: ssh
     state: restarted
+
+- name: Reload ufw
+  community.general.ufw:
+    state: reloaded
+  when: ansible_virtualization_type != 'docker'
