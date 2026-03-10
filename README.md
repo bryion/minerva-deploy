@@ -91,7 +91,7 @@ Everything is configured from a single YAML file. Secrets are vault-encrypted an
 │  │           └─ ...                                      │  │
 │  └───────────────────────────────────────────────────────┘  │
 │                                                             │
-│  Users: init (operator) │ ansible (sudo) │ minerva (app)   │
+│  Users: init (operator) │ ansible (sudo) │ minerva (app)    │
 │  Data:  /opt/minerva-deploy/compose/                        │
 └─────────────────────────────────────────────────────────────┘
 ```
