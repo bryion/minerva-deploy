@@ -1,19 +1,29 @@
 ---
 # === Connection ===
-vault_ansible_user: your_username
-vault_ansible_become_password: your_sudo_password
-vault_ssh_private_key_file: ~/.ssh/your_key
+# Username of the Ansible service account on the server (created by bootstrap role)
+vault_ansible_user: CHANGE_ME
+# Sudo password for the Ansible service account
+vault_ansible_become_password: CHANGE_ME
+# Path to the SSH private key used to connect to the server
+vault_ssh_private_key_file: ~/.ssh/CHANGE_ME
 
 # === nginx-proxy-manager ===
-vault_cf_api_token: your_cloudflare_token
+# Cloudflare API token for DNS challenge (used for Let's Encrypt wildcard certs)
+vault_cf_api_token: CHANGE_ME
 
 # === komodo ===
-vault_komodo_db_password: change_me
-vault_komodo_passkey: change_me
-vault_komodo_webhook_secret: change_me
-vault_komodo_jwt_secret: change_me
-vault_komodo_password: change_me
+# MongoDB password for the Komodo database
+vault_komodo_db_password: CHANGE_ME
+# Shared secret between Komodo Core and Periphery agent — generate with: openssl rand -hex 16
+vault_komodo_passkey: CHANGE_ME
+# Secret for validating incoming git webhooks — generate with: openssl rand -hex 16
+vault_komodo_webhook_secret: CHANGE_ME
+# Signs Komodo JWTs — if empty, users must re-login on every restart — generate with: openssl rand -hex 32
+vault_komodo_jwt_secret: CHANGE_ME
+# Initial admin password — only used on first launch, ignored if admin user already exists
+vault_komodo_password: CHANGE_ME
 
 # === n8n ===
+# Encrypts stored credentials — must remain stable; changing it breaks existing credentials
 # Generate with: openssl rand -hex 32
-vault_n8n_encryption_key: change_me
+vault_n8n_encryption_key: CHANGE_ME
