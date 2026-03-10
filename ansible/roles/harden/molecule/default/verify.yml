@@ -62,3 +62,62 @@
         path: "/home/minerva/.hushlogin"
       register: hush
       failed_when: not hush.stat.exists
+
+    # --- UFW ---
+    - name: Assert UFW package is installed
+      ansible.builtin.package:
+        name: ufw
+        state: present
+      check_mode: true
+      register: ufw_pkg
+      failed_when: ufw_pkg.changed
+
+    - name: Read UFW default policy file
+      ansible.builtin.slurp:
+        src: /etc/default/ufw
+      register: ufw_defaults
+
+    - name: Assert UFW default incoming policy is DROP
+      ansible.builtin.assert:
+        that:
+          - "'DEFAULT_INPUT_POLICY=\"DROP\"' in (ufw_defaults.content | b64decode)"
+        fail_msg: "UFW default incoming policy is not DROP"
+
+    - name: Check UFW user rules exist
+      ansible.builtin.stat:
+        path: /etc/ufw/user.rules
+      register: ufw_user_rules
+
+    - name: Assert UFW user rules file exists
+      ansible.builtin.assert:
+        that: ufw_user_rules.stat.exists
+        fail_msg: "/etc/ufw/user.rules does not exist — UFW rules were not applied"
+
+    - name: Read UFW user rules
+      ansible.builtin.slurp:
+        src: /etc/ufw/user.rules
+      register: ufw_rules_content
+
+    - name: Assert SSH port is allowed in UFW
+      ansible.builtin.assert:
+        that:
+          - "'22' in (ufw_rules_content.content | b64decode)"
+        fail_msg: "SSH port 22 not found in UFW rules"
+
+    - name: Assert HTTP port 80 is allowed in UFW
+      ansible.builtin.assert:
+        that:
+          - "'80' in (ufw_rules_content.content | b64decode)"
+        fail_msg: "Port 80 not found in UFW rules"
+
+    - name: Assert HTTPS port 443 is allowed in UFW
+      ansible.builtin.assert:
+        that:
+          - "'443' in (ufw_rules_content.content | b64decode)"
+        fail_msg: "Port 443 not found in UFW rules"
+
+    - name: Assert DNS port 53 is allowed in UFW
+      ansible.builtin.assert:
+        that:
+          - "'53' in (ufw_rules_content.content | b64decode)"
+        fail_msg: "Port 53 not found in UFW rules"
