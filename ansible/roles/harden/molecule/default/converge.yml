@@ -4,6 +4,19 @@
   become: true
   vars:
     harden_minerva_user: minerva
+    harden_ufw_enabled: true
+    harden_ufw_allowed_tcp_ports:
+      - "22"
+      - "53"
+      - "80"
+      - "81"
+      - "443"
+    harden_ufw_allowed_udp_ports:
+      - "53"
+    harden_fail2ban_enabled: true
+    harden_fail2ban_bantime: 1h
+    harden_fail2ban_findtime: 10m
+    harden_fail2ban_maxretry: 5
   pre_tasks:
     - name: Create minerva user
       ansible.builtin.user:
