@@ -5,5 +5,13 @@
 - name: Harden SSH configuration
   ansible.builtin.include_tasks: harden-ssh.yml
 
+- name: Configure UFW firewall
+  ansible.builtin.include_tasks: configure-ufw.yml
+  when: harden_ufw_enabled
+
+- name: Configure fail2ban
+  ansible.builtin.include_tasks: configure-fail2ban.yml
+  when: harden_fail2ban_enabled
+
 - name: Disable login banner
   ansible.builtin.include_tasks: hush-login.yml
