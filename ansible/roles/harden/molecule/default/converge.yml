@@ -13,6 +13,10 @@
       - "443"
     harden_ufw_allowed_udp_ports:
       - "53"
+    harden_fail2ban_enabled: true
+    harden_fail2ban_bantime: 1h
+    harden_fail2ban_findtime: 10m
+    harden_fail2ban_maxretry: 5
   pre_tasks:
     - name: Create minerva user
       ansible.builtin.user:
