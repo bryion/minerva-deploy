@@ -112,7 +112,7 @@ The playbook runs five roles in order:
 
 | User | Role | Sudo |
 |------|------|------|
-| `bryan` | Operator — initial SSH login, manual admin | Full sudo |
+| `init` | Operator — initial SSH login, manual admin | Full sudo |
 | `ansible` | Service account — runs playbooks | Passwordless sudo |
 | `minerva` | App user — owns all compose files and data | None |
 
