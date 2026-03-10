@@ -121,3 +121,47 @@
         that:
           - "'53' in (ufw_rules_content.content | b64decode)"
         fail_msg: "Port 53 not found in UFW rules"
+
+    # --- fail2ban ---
+    - name: Assert fail2ban package is installed
+      ansible.builtin.package:
+        name: fail2ban
+        state: present
+      check_mode: true
+      register: f2b_pkg
+      failed_when: f2b_pkg.changed
+
+    - name: Assert jail.local exists
+      ansible.builtin.stat:
+        path: /etc/fail2ban/jail.local
+      register: jail_local
+      failed_when: not jail_local.stat.exists
+
+    - name: Read jail.local contents
+      ansible.builtin.slurp:
+        src: /etc/fail2ban/jail.local
+      register: jail_content
+
+    - name: Assert jail.local contains sshd jail
+      ansible.builtin.assert:
+        that:
+          - "'[sshd]' in (jail_content.content | b64decode)"
+        fail_msg: "jail.local does not contain [sshd] jail"
+
+    - name: Assert jail.local has correct SSH port
+      ansible.builtin.assert:
+        that:
+          - "'port = 22' in (jail_content.content | b64decode)"
+        fail_msg: "jail.local does not reference SSH port 22"
+
+    - name: Assert jail.local has bantime
+      ansible.builtin.assert:
+        that:
+          - "'bantime = 1h' in (jail_content.content | b64decode)"
+        fail_msg: "jail.local bantime is not 1h"
+
+    - name: Assert jail.local has maxretry
+      ansible.builtin.assert:
+        that:
+          - "'maxretry = 5' in (jail_content.content | b64decode)"
+        fail_msg: "jail.local maxretry is not 5"
