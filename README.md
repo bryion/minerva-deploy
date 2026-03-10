@@ -70,12 +70,12 @@ Everything is configured from a single YAML file. Secrets are vault-encrypted an
 ┌────────────────────────▼────────────────────────────────────┐
 │  Minerva (Ubuntu 24.04)                                     │
 │                                                             │
-│  ┌─────────┐  ┌────────┐  ┌──────────┐  ┌───────────────┐  │
-│  │ UFW     │  │ SSH    │  │ fail2ban │  │ Docker Engine │  │
-│  │ firewall│  │ hardened│  │ SSH jail │  │ + Compose v2  │  │
-│  └─────────┘  └────────┘  └──────────┘  └───────┬───────┘  │
-│                                                  │          │
-│  ┌───────────────────────────────────────────────▼───────┐  │
+│  ┌─────────┐  ┌────────┐  ┌──────────┐  ┌───────────────┐   │
+│  │ UFW     │  │ SSH    │  │ fail2ban │  │ Docker Engine │   │
+│  │ firewall│  │hardened│  │ SSH jail │  │ + Compose v2  │   │
+│  └─────────┘  └────────┘  └──────────┘  └───────┬───────┘   │
+│                                                 │           │
+│  ┌──────────────────────────────────────────────▼────────┐  │
 │  │  Docker Networks                                      │  │
 │  │                                                       │  │
 │  │  networking ─── NPM ◄──── internet                    │  │
@@ -91,7 +91,7 @@ Everything is configured from a single YAML file. Secrets are vault-encrypted an
 │  │           └─ ...                                      │  │
 │  └───────────────────────────────────────────────────────┘  │
 │                                                             │
-│  Users: bryan (operator) │ ansible (sudo) │ minerva (app)   │
+│  Users: init (operator) │ ansible (sudo) │ minerva (app)   │
 │  Data:  /opt/minerva-deploy/compose/                        │
 └─────────────────────────────────────────────────────────────┘
 ```
