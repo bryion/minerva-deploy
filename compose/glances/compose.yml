@@ -1,7 +1,7 @@
 services:
   glances:
     container_name: glances
-    image: nicolargo/glances:latest # minimal + fastAPI & docker, does not include exporters (latest-full)
+    image: nicolargo/glances:4.3.0 # minimal + fastAPI & docker, does not include exporters (latest-full)
     restart: unless-stopped
     pid: host
     network_mode: host # 61208 is glances web server port
