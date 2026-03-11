@@ -11,7 +11,7 @@ Priority fixes from external security review. Resolve these before or during the
 ### Critical
 
 - [ ] **Leaked credentials in git history:** `compose/homepage/config/services.yaml:102-103` contains a commented-out email (`***REMOVED***`) and password (`***REMOVED***`) for the NPM widget. Even commented, it's permanently in git history. Scrub with BFG Repo-Cleaner, rotate the credential, and verify it hasn't been reused elsewhere. All forks and local clones must be re-cloned after the history rewrite.
-- [ ] **Filebrowser mounts entire host root:** `compose/filebrowser/compose.yml:11` maps `/:/srv` — full host filesystem read-write access from a web UI. `user: 1000:1000` and `no-new-privileges:true` are insufficient mitigations — a web exploit gets everything. What directory should filebrowser actually serve? (`/home/bryan`? `/opt/minerva-deploy`? A dedicated `/srv/files`?)
+- [ ] **Filebrowser mounts entire host root:** `compose/filebrowser/compose.yml:11` maps `/:/srv` — full host filesystem read-write access from a web UI. `user: 1000:1000` and `no-new-privileges:true` are insufficient mitigations — a web exploit gets everything. What directory should filebrowser actually serve? (`/home/operator`? `/opt/minerva-deploy`? A dedicated `/srv/files`?)
 - [ ] **privileged: true on cadvisor and glances:** Neither container needs full kernel privileges. cadvisor needs `--device /dev/kmsg` and its existing read-only mounts. Glances needs capabilities `SYS_PTRACE` + `DAC_READ_SEARCH` at most. Replace `privileged: true` with specific `devices:` and `cap_add:` entries.
 
 ### High
@@ -243,10 +243,11 @@ Priority fixes from external security review. Resolve these before or during the
 - [ ] Roadmap shows UFW and fail2ban as TODO items — both are implemented and merged. The roadmap is stale.
 - [ ] No mention of the deploy pipeline — once GitOps is implemented, the README should describe the CI → deploy flow and how to trigger or monitor it.
 - [ ] Architecture diagram labels the operator user as `init` — the rest of the project calls this user `bryan`. Is the terminology consistent?
+  - *Decision:* Standardize on `operator`. Update README and all configuration references to `operator`.
 - [ ] No troubleshooting section — common issues like vault password errors, SSH connection failures, Docker socket permissions, or "service didn't start" debugging would help a returning developer.
 - [ ] No "Adding a new service" guide — with the IaC goal, the process for adding a service (compose file → variables → templates → tests) should be documented.
 - [ ] The project structure tree shows `... (15 services)` — is this sufficient, or should all services be listed so a reader can see the full scope?
-- [ ] No mention of the three-user model's implications — e.g., "if you SSH in to debug, use `bryan`; never `sudo su minerva` to poke at compose files."
+- [ ] No mention of the three-user model's implications — e.g., "if you SSH in to debug, use `operator`; never `sudo su minerva` to poke at compose files."
 
 **Decisions needed:** When to update the README (before or after v1.0.0). Whether to add a contributing/operations guide, troubleshooting section, and "add a service" walkthrough.
 

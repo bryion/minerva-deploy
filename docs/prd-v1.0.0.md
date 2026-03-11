@@ -144,7 +144,7 @@ This approach (SSH from hosted runner) is chosen over a self-hosted runner becau
 ## Constraints
 
 - **Git history scrub required:** Leaked credentials in `services.yaml` require a history rewrite (BFG Repo-Cleaner); all forks and local clones must be re-cloned afterward
-- **Single operator:** Bryan is the sole admin; all automation must be comprehensible and maintainable by one person
+- **Single operator:** "operator" is the sole admin; all automation must be comprehensible and maintainable by one person
 - **Hardware:** One bare-metal Ubuntu 24.04 server with a static LAN IP
 - **Budget:** Homelab — no cloud spend, no paid CI runners
 - **Branch protection:** GitHub rulesets prevent direct push to `main`; all changes go through PRs
