@@ -28,7 +28,7 @@ Priority fixes from external security review. Resolve these before or during the
   - Add UDP `41641` to `harden_ufw_allowed_udp_ports`.
 - [ ] **13 of 15 services have unpinned images:** `mongo`, `adguardhome`, `ntfy`, and `n8n` have no tag at all (implicit `:latest`). Nine others use `:latest` explicitly. Only cadvisor (`v0.49.1`) and Komodo (`v1.19.5` via `.env`) are pinned. A `docker compose pull` could introduce breaking changes across the entire stack.
 - [ ] **Compose file changes don't trigger service restarts:** `compose-sync/tasks/main.yml:20` — the file copy task has no `notify` handler. Only `.env` changes (line 42) trigger the restart handler. If you update an image tag or port mapping in `compose.yml`, the running container is unchanged until a manual restart.
-- [ ] **CI dependencies are unpinned:** `requirements.txt` has `ansible>=8.0.0` with no upper bound; other packages have no pins at all. GitHub Actions use mutable tag refs (`@v4`). Builds are not reproducible — the same workflow could produce different results on different days.
+- [ ] **CI dependencies are unpinned:** `requirements.txt` has `>=8.0.0` with no upper bound; other packages have no pins at all. GitHub Actions use mutable tag refs (`@v4`). Builds are not reproducible — the same workflow could produce different results on different days.
 
 ### Medium
 
@@ -93,7 +93,7 @@ Priority fixes from external security review. Resolve these before or during the
 - [ ] The changelog PR uses `peter-evans/create-pull-request` — does this work reliably with branch protection rulesets? Does it require a PAT or bot account?
 - [ ] **[Security]** `ci.yml` has no `permissions:` block — all jobs run with default `contents: read-write`. Add `permissions: { contents: read }` at the workflow level. Only the changelog workflow needs write access.
 - [ ] **[Security]** Third-party actions are pinned by mutable tag (`actions/checkout@v4`), not by SHA. A compromised tag update could execute arbitrary code with the workflow's token. SHA-pin at least the high-risk actions (`checkout`, `setup-python`). Dependabot can auto-update SHA pins.
-- [ ] **[Security]** `requirements.txt` pins nothing except an `ansible` floor (`>=8.0.0`). `molecule`, `ansible-lint`, `docker`, `requests` all float. Add version pins (or use `pip-compile` / `pip freeze` to generate a lockfile) for reproducible CI builds.
+- [ ] **[Security]** `requirements.txt` pins nothing except an `ansible` floor (`>=8.0.0`). What version of Ansible would you like to pin? `molecule`, `ansible-lint`, `docker`, `requests` all float. Add version pins (or use `pip-compile` / `pip freeze` to generate a lockfile) for reproducible CI builds.
 
 **Decisions needed:** CI trigger strategy (avoid double runs). Deploy workflow design. Changelog workflow status. Dependabot creation. CI caching. Action SHA-pinning strategy.
 
