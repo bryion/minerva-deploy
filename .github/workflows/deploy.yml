@@ -1,0 +1,62 @@
+---
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Minerva
+    runs-on: ubuntu-24.04
+    # Only run when CI completes successfully
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Ansible Galaxy roles
+        run: ansible-galaxy install -r ansible/requirements.yml -p ansible/roles
+
+      - name: Install Ansible Galaxy collections
+        run: ansible-galaxy collection install community.docker:3.9.0
+
+      - name: Write vault password
+        run: echo "${{ secrets.VAULT_PASSWORD }}" > .vault_pass
+
+      - name: Write SSH private key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/minerva_ansible
+          chmod 600 ~/.ssh/minerva_ansible
+
+      - name: Join Tailscale
+        uses: tailscale/github-action@4e4c49acaa9818630ce0bd7a564372c17e33fb4d # v2
+        with:
+          oauth-client-id: ${{ secrets.TAILSCALE_OAUTH_CLIENT_ID }}
+          oauth-client-secret: ${{ secrets.TAILSCALE_OAUTH_CLIENT_SECRET }}
+          tags: tag:ci
+
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook ansible/playbook.yml \
+            -i ansible/inventory \
+            --private-key ~/.ssh/minerva_ansible \
+            -e "ansible_host=${{ secrets.MINERVA_TAILSCALE_IP }}"
+
+      - name: Clean up secrets
+        if: always()
+        run: |
+          rm -f .vault_pass ~/.ssh/minerva_ansible
