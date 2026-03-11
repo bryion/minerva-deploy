@@ -242,8 +242,7 @@ Priority fixes from external security review. Resolve these before or during the
 - [ ] No mention of `direnv` or `.envrc` — a developer with direnv installed gets automatic venv activation; one without gets confused by the `.envrc` file. Document or remove?
 - [ ] Roadmap shows UFW and fail2ban as TODO items — both are implemented and merged. The roadmap is stale.
 - [ ] No mention of the deploy pipeline — once GitOps is implemented, the README should describe the CI → deploy flow and how to trigger or monitor it.
-- [ ] Architecture diagram labels the operator user as `init` — the rest of the project calls this user `bryan`. Is the terminology consistent?
-  - *Decision:* Standardize on `operator`. Update README and all configuration references to `operator`.
+- [ ] Standardize user naming convention. operator | ansible | minerva
 - [ ] No troubleshooting section — common issues like vault password errors, SSH connection failures, Docker socket permissions, or "service didn't start" debugging would help a returning developer.
 - [ ] No "Adding a new service" guide — with the IaC goal, the process for adding a service (compose file → variables → templates → tests) should be documented.
 - [ ] The project structure tree shows `... (15 services)` — is this sufficient, or should all services be listed so a reader can see the full scope?
