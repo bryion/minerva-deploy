@@ -56,7 +56,7 @@ The platform manages a stack of over 15 distinct containerized services, logical
 - Configuration files for services (like Grafana datasources, Prometheus scrape targets, Homepage widgets) are generated using Jinja2 templates via Ansible, bypassing native UI setup wizards.
 
 **Developer Experience (DevEx):**
-- **Task Runners:** Local developer operations (e.g., `setup`, `lint`, `test`, `deploy`) are abstracted and standardized through a task runner (e.g., a `Makefile` or `justfile`). This replaces brittle shell scripts, ensuring idempotency and environment reproducibility for anyone interacting with the codebase.
+- **Zero-Magic Tooling:** The repository eschews custom setup scripts and abstract task runners (no `Makefile` or `scripts/`). Developer onboarding and daily operations rely strictly on standard, native commands (e.g., `pip install -r requirements.txt`, `ansible-galaxy install -r requirements.yml`, and direct `molecule` invocations). This minimizes maintenance overhead and adheres to standard Ansible ecosystem patterns.
 - **Strict Linting & Hooks:** Code quality and formatting are strictly enforced via `ansible-lint`, `commitlint`, and YAML/Docker linting. These checks are pushed "left" to pre-commit hooks to catch issues before CI execution.
 
 **CI/CD & GitOps:**
