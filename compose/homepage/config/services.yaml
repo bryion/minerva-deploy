@@ -99,8 +99,8 @@
 #        widget:
 #            type: npm
 #            url: https://nginx.nlab.casa/
-#            username: ***REMOVED***
-#            password: ***REMOVED***
+#            username: REDACTED
+#            password: REDACTED
     - Adguard Home:
         icon: /icons/adguardhome.png
         href: https://adguard.nlab.casa/
