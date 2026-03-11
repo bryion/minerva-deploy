@@ -4,11 +4,11 @@ services:
     container_name: filebrowser
     user: 1000:1000
     ports:
-      - 8383:80
+      - 127.0.0.1:8383:80
     volumes:
       - './filebrowser_config:/config'
       - './filebrowser_database:/database'
-      - '/:/srv'
+      - '/opt/minerva-deploy:/srv'
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
