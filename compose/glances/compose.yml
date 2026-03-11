@@ -8,13 +8,14 @@ services:
     volumes:
       - "/:/rootfs:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
       - "./glances.conf:/glances/conf/glances.conf:ro"
     environment:
       - "GLANCES_OPT=-w"
     tmpfs:
       - /tmp
-    privileged: true
+    cap_add:
+      - SYS_PTRACE
+      - DAC_READ_SEARCH
     read_only: true
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:61208/api/4/status"]
