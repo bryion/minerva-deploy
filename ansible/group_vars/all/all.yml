@@ -9,8 +9,6 @@ minerva_user: minerva
 minerva_base_dir: /opt/minerva-deploy
 # Service account used by Ansible to SSH in and run playbooks (has passwordless sudo)
 minerva_deploy_user: ansible
-# SSH port after hardening — update this if harden role changes the port
-minerva_ssh_port: 22
 # Default admin username used across services (Komodo, etc.)
 compose_username: admin
 # Base domain for reverse-proxy subdomains (e.g. komodo.example.com, n8n.example.com)
@@ -136,23 +134,12 @@ compose_sync_secrets:
 ansible_host: "{{ minerva_ip }}"
 ansible_user: "{{ vault_ansible_user }}"
 ansible_ssh_private_key_file: "{{ vault_ssh_private_key_file }}"
-ansible_become_password: "{{ vault_ansible_become_password }}"
 
 # --- Role vars (DO NOT EDIT) ---
 bootstrap_deploy_user: "{{ minerva_deploy_user }}"
 bootstrap_minerva_user: "{{ minerva_user }}"
 bootstrap_minerva_group: "{{ minerva_user }}"
 harden_minerva_user: "{{ minerva_user }}"
-harden_ssh_port: "{{ minerva_ssh_port }}"
-harden_ufw_enabled: true
-harden_ufw_allowed_tcp_ports:
-  - "{{ minerva_ssh_port }}"
-  - "53"
-  - "80"
-  - "81"
-  - "443"
-harden_ufw_allowed_udp_ports:
-  - "53"
 harden_fail2ban_enabled: true
 harden_fail2ban_bantime: 1h
 harden_fail2ban_findtime: 10m
