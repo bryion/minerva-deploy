@@ -3,7 +3,7 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - "4000:3000"
+      - "127.0.0.1:4000:3000"
     volumes:
       - ./dashboards:/var/lib/grafana/dashboards
       - grafana-storage:/var/lib/grafana

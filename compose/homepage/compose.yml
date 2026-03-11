@@ -3,7 +3,7 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     ports:
-      - 3002:3000
+      - 127.0.0.1:3002:3000
     volumes:
       - ./config:/app/config # Maps current directory to config
       - ./images:/app/public/images # Maps local images folder to public webroot
