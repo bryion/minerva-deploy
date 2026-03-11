@@ -55,6 +55,10 @@ The platform manages a stack of over 15 distinct containerized services, logical
 - All variables (ports, hostnames, configuration flags) are centralized in `ansible/group_vars/all/all.yml`.
 - Configuration files for services (like Grafana datasources, Prometheus scrape targets, Homepage widgets) are generated using Jinja2 templates via Ansible, bypassing native UI setup wizards.
 
+**Developer Experience (DevEx):**
+- **Task Runners:** Local developer operations (e.g., `setup`, `lint`, `test`, `deploy`) are abstracted and standardized through a task runner (e.g., a `Makefile` or `justfile`). This replaces brittle shell scripts, ensuring idempotency and environment reproducibility for anyone interacting with the codebase.
+- **Strict Linting & Hooks:** Code quality and formatting are strictly enforced via `ansible-lint`, `commitlint`, and YAML/Docker linting. These checks are pushed "left" to pre-commit hooks to catch issues before CI execution.
+
 **CI/CD & GitOps:**
 - Code changes require PR reviews. GitHub Actions CI pipeline enforces linting (`commitlint`, `ansible-lint`) and performs end-to-end testing of Ansible roles using Molecule.
 - Merges to `main` trigger the CD workflow, executing the Ansible playbook over the Tailscale tunnel.
