@@ -247,7 +247,7 @@ minerva-deploy/
 - [x] UFW firewall with configurable port allowlist
 - [x] fail2ban SSH jail
 - [ ] First deploy to production
-- [ ] Pin all Docker images to specific versions (10 services on `:latest`)
+- [ ] Pin all Docker images to specific versions (13 of 15 unpinned)
 - [ ] Absorb `minerva-setup.sh` into an Ansible role
 
 ---
