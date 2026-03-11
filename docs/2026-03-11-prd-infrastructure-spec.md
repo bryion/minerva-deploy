@@ -5,6 +5,8 @@
 
 **v1.0.0 Goal:** Achieve the first successful, reproducible, GitOps-driven deploy with all 15 services running. This means: push to `main`, CI passes, Ansible deploys over SSH via Tailscale, and every service comes up configured and healthy—maximizing Infrastructure-as-Code (IaC) to eliminate manual post-deploy UI configuration.
 
+> **Bootstrap exception:** The *first* deploy requires a one-time manual step — run the playbook locally to install Tailscale on the server and retrieve its IP, then add `MINERVA_TAILSCALE_IP` to GitHub Secrets. All subsequent deploys are fully automated via push to `main`.
+
 **Core Principles:**
 - **GitOps-Driven:** Continuous deployment pipeline managed via GitHub Actions.
 - **Infrastructure-as-Code (IaC):** Strict adherence to configuration via code; `all.yml` acts as the single source of truth.
@@ -41,10 +43,7 @@ The platform manages a stack of 15 containerized services, logically categorized
 - **Network Isolation:** Internal services (Grafana, Prometheus) must bind to `127.0.0.1` instead of `0.0.0.0` to ensure access strictly through the reverse proxy.
 - **Stability:** Strictly pin all active container images to explicit versions (semver).
 
-### Workstream 2: IaC Maximization
-- **Centralize Configuration:** Promote service ports, hostnames, and flags to canonical variables in `ansible/group_vars/all/all.yml` to prepare the foundation for future templating.
-
-### Workstream 3: GitOps Pipeline & DevEx
+### Workstream 2: GitOps Pipeline & DevEx
 - **Strict Linting & Testing:** Enforce code quality via `ansible-lint`, `commitlint`, and end-to-end role testing using Molecule (Docker driver). All tasks must be idempotent.
 - **Automated CD:** Merges to `main` trigger the GitHub Actions deploy workflow, executing the Ansible playbook over the Tailscale tunnel.
 - **Zero-Magic Tooling:** Remove custom setup scripts (`minerva-setup.sh`); developers rely strictly on `requirements.txt` and `requirements.yml`.
@@ -54,4 +53,5 @@ The platform manages a stack of 15 containerized services, logically categorized
 - Public internet exposure (LAN-only for v1.0.0).
 - Auto-rollback on failed deploys.
 - Full IaC Jinja2 templating of service configs (e.g., Grafana datasources, Prometheus targets, Homepage widgets, Uptime Kuma REST API setup are deferred to post-v1.0.0).
+- Centralizing service ports, hostnames, and flags as Ansible variables in `all.yml` (deferred alongside Jinja2 templating — no value until templating is in scope).
 - Implementation of a Docker socket proxy.
