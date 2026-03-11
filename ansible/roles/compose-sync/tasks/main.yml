@@ -25,6 +25,7 @@
     group: "{{ compose_sync_group }}"
     mode: preserve
     directory_mode: "0755"
+  notify: Restart affected services
 
 # Write vault-encrypted secrets as .env files.
 # compose_sync_secrets is a dict of service_name -> {KEY: value, ...}
