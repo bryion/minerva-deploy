@@ -1,0 +1,10 @@
+---
+# Tailscale installation and auth is handled by the artis3n.tailscale dependency
+# declared in meta/main.yml. This task only runs post-install to confirm connectivity.
+# Skipped in Molecule (no real auth key available in test environments).
+- name: Confirm Tailscale is active
+  ansible.builtin.command: tailscale status
+  register: tailscale_status
+  changed_when: false
+  failed_when: tailscale_status.rc != 0
+  when: tailscale_authkey | length > 10  # skip in Molecule where authkey is a placeholder

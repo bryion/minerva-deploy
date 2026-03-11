@@ -1,0 +1,6 @@
+---
+dependencies:
+  - role: artis3n.tailscale
+    vars:
+      tailscale_authkey: "{{ tailscale_authkey }}"
+      tailscale_args: "{{ tailscale_args }}"

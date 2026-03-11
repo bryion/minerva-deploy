@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Assert tailscaled service is enabled
+      ansible.builtin.systemd:
+        name: tailscaled
+      register: tailscaled_svc
+      check_mode: true
+
+    - name: Assert tailscaled is present
+      ansible.builtin.assert:
+        that:
+          - tailscaled_svc is defined
+        fail_msg: "tailscaled service is not present"

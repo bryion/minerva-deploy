@@ -1,0 +1,8 @@
+---
+roles:
+  - name: geerlingguy.docker
+    src: geerlingguy.docker
+    version: "8.0.0"
+  - name: artis3n.tailscale
+    src: artis3n.tailscale
+    version: "v5.0.1"

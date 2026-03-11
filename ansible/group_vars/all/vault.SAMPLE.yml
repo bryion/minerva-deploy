@@ -27,3 +27,7 @@ vault_komodo_password: CHANGE_ME
 # Encrypts stored credentials — must remain stable; changing it breaks existing credentials
 # Generate with: openssl rand -hex 32
 vault_n8n_encryption_key: CHANGE_ME
+
+# === Tailscale ===
+# Tailscale auth key used to join the tailnet
+vault_tailscale_auth_key: tskey-auth-REPLACE_ME
