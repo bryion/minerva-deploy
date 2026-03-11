@@ -63,17 +63,22 @@ Everything is configured from a single YAML file. Secrets are vault-encrypted an
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  Control Node (your machine)                                │
+│  Control Node (your machine) / GitHub Actions               │
 │  Ansible + Molecule + Vault                                 │
 └────────────────────────┬────────────────────────────────────┘
-                         │ SSH
+                         │ SSH (over Tailscale)
 ┌────────────────────────▼────────────────────────────────────┐
 │  Minerva (Ubuntu 24.04)                                     │
 │                                                             │
 │  ┌─────────┐  ┌────────┐  ┌──────────┐  ┌───────────────┐   │
 │  │ UFW     │  │ SSH    │  │ fail2ban │  │ Docker Engine │   │
 │  │ firewall│  │hardened│  │ SSH jail │  │ + Compose v2  │   │
-│  └─────────┘  └────────┘  └──────────┘  └───────┬───────┘   │
+│  └────┬────┘  └────────┘  └──────────┘  └───────┬───────┘   │
+│       │                                         │           │
+│  ┌────▼────┐                                    │           │
+│  │Tailscale│                                    │           │
+│  │ Network │                                    │           │
+│  └─────────┘                                    │           │
 │                                                 │           │
 │  ┌──────────────────────────────────────────────▼────────┐  │
 │  │  Docker Networks                                      │  │
@@ -91,28 +96,31 @@ Everything is configured from a single YAML file. Secrets are vault-encrypted an
 │  │           └─ ...                                      │  │
 │  └───────────────────────────────────────────────────────┘  │
 │                                                             │
-│  Users: init (operator) │ ansible (sudo) │ minerva (app)    │
+│  User :    operator    │  ansible  │  minerva               │
+│         (initial user) │  (sudo)   │   (app)                │
+│                                                             │ 
 │  Data:  /opt/minerva-deploy/compose/                        │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### Provisioning pipeline
 
-The playbook runs five roles in order:
+The playbook runs six roles in order:
 
 | Stage | Role | What it does |
 |-------|------|-------------|
 | 1 | **bootstrap** | Creates `ansible` (service account, passwordless sudo) and `minerva` (app user, owns `/opt/minerva-deploy`) |
 | 2 | **harden** | SSH hardening (key-only, custom port), UFW firewall (deny-all + allowlist), fail2ban (SSH jail), system updates |
-| 3 | **geerlingguy.docker** | Installs Docker Engine, CLI, Compose plugin, enables on boot |
-| 4 | **compose-sync** | Syncs compose files to server, writes vault-encrypted secrets as `.env` files |
-| 5 | **compose-up** | Creates Docker networks (`monitoring`, `networking`), runs `docker compose up` per service |
+| 3 | **tailscale** | Connects server to Tailscale network for secure deploy access |
+| 4 | **geerlingguy.docker** | Installs Docker Engine, CLI, Compose plugin, enables on boot |
+| 5 | **compose-sync** | Syncs compose files to server, writes vault-encrypted secrets as `.env` files |
+| 6 | **compose-up** | Creates Docker networks (`monitoring`, `networking`), runs `docker compose up` per service |
 
 ### Security model
 
 | User | Role | Sudo |
 |------|------|------|
-| `init` | Operator — initial SSH login, manual admin | Full sudo |
+| `operator`| Initial user — initial SSH login, manual admin | Full sudo |
 | `ansible` | Service account — runs playbooks | Passwordless sudo |
 | `minerva` | App user — owns all compose files and data | None |
 
@@ -246,9 +254,11 @@ minerva-deploy/
 - [x] Vault-encrypted secrets with `.env` injection
 - [x] UFW firewall with configurable port allowlist
 - [x] fail2ban SSH jail
-- [ ] First deploy to production
+- [ ] Implement GitOps deployment pipeline via GitHub Actions over Tailscale
+- [ ] Scrub leaked credentials from git history
 - [ ] Pin all Docker images to specific versions (13 of 15 unpinned)
-- [ ] Absorb `minerva-setup.sh` into an Ansible role
+- [ ] Maximize Infrastructure-as-Code by templating service configs (Grafana, Prometheus, etc.)
+- [ ] First complete deploy to production
 
 ---
 
