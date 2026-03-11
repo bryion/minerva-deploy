@@ -54,7 +54,6 @@ requests==2.32.5
 molecule==26.3.0
 molecule-plugins[docker]==25.8.12
 ```
-*(Note: These versions are representative stable versions compatible with Ansible 8+ and Python 3.11+. During execution, the agent should verify these versions or use the exact output of a `pip freeze` in the current working `.venv`.)*
 
 - [ ] **Step 2: Verify dependency installation**
 Run: `pip install -r requirements.txt`
@@ -124,7 +123,8 @@ ansible-galaxy install -r requirements.yml -p ansible/roles
 ```
 
 - [ ] **Step 2: Verify Markdown formatting**
-Run: `cat README.md` and visually inspect the Getting Started section to ensure the code blocks are correctly formatted.
+Run: `grep -q "ansible-galaxy install" README.md`
+Expected: Exits with status 0, indicating the new setup text is present in the file.
 
 - [ ] **Step 3: Commit**
 ```bash
