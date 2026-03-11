@@ -3,6 +3,6 @@
   hosts: all
   become: true
   vars:
-    tailscale_authkey: "{{ lookup('env', 'TAILSCALE_TEST_KEY') | default('tskey-auth-test', true) }}"
+    minerva_tailscale_authkey: "{{ lookup('env', 'TAILSCALE_TEST_KEY') | default('tskey-auth-test', true) }}"
   roles:
-    - role: tailscale
+    - role: bryion.tailscale
