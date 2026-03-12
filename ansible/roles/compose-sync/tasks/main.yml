@@ -44,5 +44,5 @@
     owner: "{{ compose_sync_owner }}"
     group: "{{ compose_sync_group }}"
     mode: "0600"
-  loop: "{{ (compose_up_services | default([])) + (compose_up_manual_services | default([])) }}"
+  loop: "{{ (compose_up_services | default([]) + compose_up_manual_services | default([]) + (compose_sync_secrets | default({})).keys() | list) | unique }}"
   notify: Restart affected services
