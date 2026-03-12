@@ -16,5 +16,10 @@ platforms:
     cgroupns_mode: host
 provisioner:
   name: ansible
+  env:
+    # artis3n.tailscale v5.0.1 uses a string conditional in its deprecation
+    # warning task, which Ansible 2.19 rejects. Allow it until the role or
+    # its replacement (the artis3n.tailscale collection) is adopted.
+    ANSIBLE_ALLOW_BROKEN_CONDITIONALS: "True"
 verifier:
   name: ansible
