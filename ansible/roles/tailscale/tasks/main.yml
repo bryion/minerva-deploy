@@ -7,4 +7,4 @@
   register: tailscale_status
   changed_when: false
   failed_when: tailscale_status.rc != 0
-  when: minerva_tailscale_authkey | length > 10  # skip in Molecule where authkey is a placeholder
+  when: tailscale_wrapper_authkey | length > 10  # skip in Molecule where authkey is a placeholder

@@ -17,5 +17,5 @@ galaxy_info:
 dependencies:
   - role: artis3n.tailscale
     vars:
-      tailscale_authkey: "{{ minerva_tailscale_authkey }}"
-      tailscale_args: "{{ minerva_tailscale_args }}"
+      tailscale_authkey: "{{ tailscale_wrapper_authkey }}"
+      tailscale_args: "{{ tailscale_wrapper_args }}"

@@ -1,3 +1,3 @@
 ---
-minerva_tailscale_authkey: ""
-minerva_tailscale_args: "--accept-routes"
+tailscale_wrapper_authkey: ""
+tailscale_wrapper_args: "--accept-routes"
