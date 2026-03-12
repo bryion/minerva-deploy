@@ -129,6 +129,8 @@ The playbook runs six roles in order:
 - **Intrusion prevention:** fail2ban monitors SSH (5 retries, 1h ban)
 - **Secrets:** Ansible Vault encrypts credentials, injected as `.env` at deploy time (never committed)
 
+> **Note on users:** Use `operator` for manual debugging. `ansible` is for automated GitOps only. Do not manually edit files owned by `minerva` — the playbook manages them.
+
 ### Stack
 
 | Layer | Tool |
@@ -138,6 +140,9 @@ The playbook runs six roles in order:
 | Testing | Molecule (Docker driver) |
 | Secrets | Ansible Vault → `.env` files at runtime |
 | CI | GitHub Actions (commitlint + ansible-lint + Molecule matrix) |
+| GitOps | Automated deploy to Minerva via Tailscale on push to `main` |
+
+The CI workflow runs on every push and PR. On successful merge to `main`, the `deploy` workflow joins the Tailscale network and runs the Ansible playbook against Minerva's Tailscale IP.
 
 ---
 
@@ -160,8 +165,10 @@ The playbook runs six roles in order:
 ```bash
 git clone https://github.com/bryion/minerva-deploy.git
 cd minerva-deploy
-bash scripts/minerva-setup.sh
+python3 -m venv .venv
 source .venv/bin/activate
+pip install -r requirements.txt
+ansible-galaxy install -r ansible/requirements.yml -p ansible/roles
 ```
 
 ### 2. Configure
@@ -236,29 +243,34 @@ minerva-deploy/
 │   ├── grafana/
 │   ├── prometheus/
 │   └── ... (15 services)
-├── scripts/
-│   ├── minerva-setup.sh               # Local environment bootstrap
-│   └── minerva-wipe.sh                # Destructive Docker reset
 └── .github/workflows/
     ├── ci.yml                          # Lint + Molecule matrix
-    └── changelog.yml                   # Auto-generated changelog
-```
+    └── deploy.yml                      # GitOps deploy via Tailscale
 
 ---
 
 ## Roadmap
 
-- [x] Ansible roles: bootstrap, harden, compose-sync, compose-up
+- [x] Ansible roles: bootstrap, harden, tailscale, compose-sync, compose-up
 - [x] Molecule tests for all custom roles
 - [x] CI pipeline (commitlint + ansible-lint + Molecule)
 - [x] Vault-encrypted secrets with `.env` injection
 - [x] UFW firewall with configurable port allowlist
 - [x] fail2ban SSH jail
-- [ ] Implement GitOps deployment pipeline via GitHub Actions over Tailscale
-- [ ] Scrub leaked credentials from git history
-- [ ] Pin all Docker images to specific versions (13 of 15 unpinned)
-- [ ] Maximize Infrastructure-as-Code by templating service configs (Grafana, Prometheus, etc.)
-- [ ] First complete deploy to production
+- [x] GitOps deployment pipeline via GitHub Actions over Tailscale
+- [x] Scrubbed leaked credentials from git history
+- [x] All Docker images pinned to specific versions
+- [ ] Maximize Infrastructure-as-Code by templating service configs
+- [x] First complete deploy to production (v1.0.0)
+
+---
+
+## Troubleshooting
+
+- **Vault password error:** check `.vault_pass` exists at repo root.
+- **SSH connection failure:** check Tailscale is running on Minerva (`tailscale status`).
+- **Service didn't start:** check `docker compose logs <service>` in `/opt/minerva-deploy/compose/<service>/`.
+- **`ansible-lint` fails locally:** ensure `.venv` is active and `vault.yml` exists.
 
 ---
 

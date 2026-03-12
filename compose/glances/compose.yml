@@ -1,20 +1,25 @@
 services:
   glances:
     container_name: glances
-    image: nicolargo/glances:latest # minimal + fastAPI & docker, does not include exporters (latest-full)
+    image: nicolargo/glances:4.3.0 # minimal + fastAPI & docker, does not include exporters (latest-full)
     restart: unless-stopped
     pid: host
     network_mode: host # 61208 is glances web server port
     volumes:
       - "/:/rootfs:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
       - "./glances.conf:/glances/conf/glances.conf:ro"
     environment:
       - "GLANCES_OPT=-w"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     tmpfs:
       - /tmp
-    privileged: true
+    cap_add:
+      - SYS_PTRACE
+      - DAC_READ_SEARCH
     read_only: true
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:61208/api/4/status"]

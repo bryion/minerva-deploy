@@ -9,11 +9,14 @@
     # 2. Harden: SSH hardening, updates, hushlogin
     - harden
 
-    # 3. Docker Installation: Installs Docker Engine and Docker Compose plugin
+    # 3. Tailscale: Joins server to tailnet for secure remote access
+    - artis3n.tailscale.machine
+
+    # 4. Docker Installation: Installs Docker Engine and Docker Compose plugin
     - geerlingguy.docker
 
-    # 4. Container Deployment: Syncs configs, networks, and .env secrets
+    # 5. Container Deployment: Syncs configs, networks, and .env secrets
     - compose-sync
 
-    # 5. Compose Up: Starts services via docker compose up
+    # 6. Compose Up: Starts services via docker compose up
     - compose-up

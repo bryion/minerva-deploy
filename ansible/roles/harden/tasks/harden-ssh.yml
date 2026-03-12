@@ -20,9 +20,6 @@
     # Disable root login for security
     - regexp: "^#?PermitRootLogin"
       line: "PermitRootLogin no"
-    # Set the custom SSH port defined in variables
-    - regexp: "^#?Port"
-      line: "Port {{ harden_ssh_port }}"
     # Disable DNS lookups to speed up login
     - regexp: "^#?UseDNS"
       line: "UseDNS no"
@@ -30,6 +27,6 @@
     - regexp: "^#?PermitEmptyPasswords"
       line: "PermitEmptyPasswords no"
     # Disable challenge-response (often used for passwords)
-    - regexp: "^#?ChallengeResponseAuthentication"
-      line: "ChallengeResponseAuthentication no"
+    - regexp: "^#?KbdInteractiveAuthentication"
+      line: "KbdInteractiveAuthentication no"
   notify: Restart ssh
