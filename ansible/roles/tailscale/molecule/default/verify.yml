@@ -3,14 +3,21 @@
   hosts: all
   become: true
   tasks:
-    - name: Assert tailscaled service is enabled
+    - name: Gather tailscaled service facts
       ansible.builtin.systemd:
         name: tailscaled
       register: tailscaled_svc
       check_mode: true
 
-    - name: Assert tailscaled is present
+    - name: Assert tailscaled service is enabled
       ansible.builtin.assert:
         that:
-          - tailscaled_svc is defined
-        fail_msg: "tailscaled service is not present"
+          - tailscaled_svc.status is defined
+          - tailscaled_svc.status.UnitFileState == 'enabled'
+        fail_msg: "tailscaled service is not enabled (UnitFileState={{ tailscaled_svc.status.UnitFileState | default('undefined') }})"
+
+    - name: Assert tailscaled binary is present
+      ansible.builtin.stat:
+        path: /usr/sbin/tailscaled
+      register: tailscaled_bin
+      failed_when: not tailscaled_bin.stat.exists
