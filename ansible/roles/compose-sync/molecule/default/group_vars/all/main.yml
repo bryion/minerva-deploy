@@ -4,7 +4,12 @@ compose_sync_base_dir: /opt/minerva-deploy
 compose_sync_owner: root
 compose_sync_group: root
 compose_sync_src_dir: /tmp/compose-test
+minerva_puid: 1000
+minerva_pgid: 1000
+minerva_timezone: America/Los_Angeles
 compose_sync_secrets:
   testapp:
     SECRET_KEY: "test-secret-value"
     DB_PASSWORD: "test-db-pass"
+compose_up_services:
+  - testapp
