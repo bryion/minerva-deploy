@@ -24,6 +24,16 @@ services:
 #      - 5443:5443/tcp    # add if you are going to run AdGuard Home as a DNSCrypt server.
 #      - 5443:5443/udp    # add if you are going to run AdGuard Home as a DNSCrypt server.
     image: adguard/adguardhome:v0.107.56
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     networks:
       - networking
 

@@ -13,3 +13,13 @@ services:
     environment:
       HOMEPAGE_ALLOWED_HOSTS: nlab.casa,192.168.1.19:3002,minerva.lab:3002 # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s

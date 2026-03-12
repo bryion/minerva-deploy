@@ -4,8 +4,12 @@ services:
     container_name: ntfy
     command:
       - serve
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     environment:
-      - TZ=America/Los_Angeles # optional: set desired timezone
+      - TZ=${TZ} # optional: set desired timezone
 #    user: UID:GID # optional: replace with your own user/group or uid/gid
     volumes:
       - /var/cache/ntfy:/var/cache/ntfy
