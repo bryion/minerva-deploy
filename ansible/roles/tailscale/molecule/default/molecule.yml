@@ -7,7 +7,7 @@ driver:
   name: docker
 platforms:
   - name: tailscale-test
-    image: geerlingguy/docker-ubuntu2404-ansible:latest
+    image: geerlingguy/docker-ubuntu2404-ansible:latest@sha256:c4c525faa4e19a0b0bcac5dd636b3f86b987e83f12f6103b266f60d799ee61b4
     pre_build_image: true
     command: /lib/systemd/systemd
     privileged: true
