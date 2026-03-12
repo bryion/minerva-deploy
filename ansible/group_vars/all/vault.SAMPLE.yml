@@ -2,8 +2,6 @@
 # === Connection ===
 # Username of the Ansible service account on the server (created by bootstrap role)
 vault_ansible_user: CHANGE_ME
-# Sudo password for the Ansible service account
-vault_ansible_become_password: CHANGE_ME
 # Path to the SSH private key used to connect to the server
 vault_ssh_private_key_file: ~/.ssh/CHANGE_ME
 
@@ -27,3 +25,7 @@ vault_komodo_password: CHANGE_ME
 # Encrypts stored credentials — must remain stable; changing it breaks existing credentials
 # Generate with: openssl rand -hex 32
 vault_n8n_encryption_key: CHANGE_ME
+
+# === Tailscale ===
+# Tailscale auth key used to join the tailnet
+vault_tailscale_auth_key: tskey-auth-REPLACE_ME

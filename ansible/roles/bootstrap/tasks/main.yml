@@ -4,6 +4,8 @@
   vars:
     target_user: "{{ bootstrap_minerva_user }}"
     target_group: "{{ bootstrap_minerva_group }}"
+    target_uid: "{{ minerva_puid | default(omit) }}"
+    target_gid: "{{ minerva_pgid | default(omit) }}"
 
 - name: Create ansible service account
   ansible.builtin.include_tasks: user-setup.yml

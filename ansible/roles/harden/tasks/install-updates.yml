@@ -3,7 +3,7 @@
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 86400  # Skips update if run within the 24 hours
-    upgrade: "dist"     # 'dist' Upgrades all packages; installs/removes dependencies as needed. 'safe' Upgrades only currently installed packages.
+    upgrade: "safe"     # 'dist' Upgrades all packages; installs/removes dependencies as needed. 'safe' Upgrades only currently installed packages.
     autoremove: true        # Continues cleaning unused dependencies
 
 - name: Install and Update Packages

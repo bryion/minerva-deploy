@@ -1,14 +1,24 @@
 services:
   filebrowser:
-    image: filebrowser/filebrowser:latest
+    image: filebrowser/filebrowser:v2.32.0
     container_name: filebrowser
-    user: 1000:1000
+    user: "${PUID}:${PGID}"
     ports:
-      - 8383:80
+      - 127.0.0.1:8383:80
     volumes:
       - './filebrowser_config:/config'
       - './filebrowser_database:/database'
-      - '/:/srv'
+      - '/opt/minerva-deploy:/srv'
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     security_opt:
       - no-new-privileges:true

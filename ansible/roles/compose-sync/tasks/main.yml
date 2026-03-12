@@ -25,18 +25,24 @@
     group: "{{ compose_sync_group }}"
     mode: preserve
     directory_mode: "0755"
+  notify: Restart affected services
 
-# Write vault-encrypted secrets as .env files.
-# compose_sync_secrets is a dict of service_name -> {KEY: value, ...}
-- name: Write .env files for services with secrets
+# Write environment variables as .env files for all services.
+# Includes universal vars (PUID, PGID, TZ) + service-specific secrets from vault.
+- name: Write .env files for all services
   ansible.builtin.copy:
-    dest: "{{ compose_sync_base_dir }}/compose/{{ item.key }}/.env"
+    dest: "{{ compose_sync_base_dir }}/compose/{{ item }}/.env"
     content: |
-      {% for k, v in item.value.items() %}
+      PUID="{{ minerva_puid }}"
+      PGID="{{ minerva_pgid }}"
+      TZ="{{ minerva_timezone }}"
+      {% if item in compose_sync_secrets %}
+      {% for k, v in compose_sync_secrets[item].items() %}
       {{ k }}="{{ v }}"
       {% endfor %}
+      {% endif %}
     owner: "{{ compose_sync_owner }}"
     group: "{{ compose_sync_group }}"
     mode: "0600"
-  loop: "{{ compose_sync_secrets | dict2items }}"
+  loop: "{{ (compose_up_services | default([]) + compose_up_manual_services | default([]) + (compose_sync_secrets | default({})).keys() | list) | unique }}"
   notify: Restart affected services

@@ -1,6 +1,6 @@
 # === Ansible ===
 ansible/roles/geerlingguy.docker
-ansible/group_vars/all/vault.yml
+ansible/roles/artis3n.tailscale
 .vault_pass
 *.retry
 *.original
