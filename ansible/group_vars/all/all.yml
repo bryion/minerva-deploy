@@ -5,6 +5,9 @@
 # --- Canonical vars (change these) ---
 # Unprivileged user that owns app files under minerva_base_dir
 minerva_user: minerva
+# Fixed UID and GID for the minerva user/group to ensure consistent permissions
+minerva_puid: 1000
+minerva_pgid: 1000
 # Root directory on the server where compose files, configs, and data live
 minerva_base_dir: /opt/minerva-deploy
 # Service account used by Ansible to SSH in and run playbooks (has passwordless sudo)
@@ -19,6 +22,14 @@ minerva_timezone: America/Los_Angeles
 minerva_ip: 192.168.1.100
 
 
+
+# --- Infrastructure (geerlingguy.docker) ---
+# Global log rotation settings for all containers to prevent disk exhaustion.
+docker_daemon_options:
+  log-driver: json-file
+  log-opts:
+    max-size: 10m
+    max-file: "3"
 
 # --- Services ---
 # compose_up_services: started automatically by the playbook

@@ -2,11 +2,13 @@
 - name: Ensure group exists
   ansible.builtin.group:
     name: "{{ target_group }}"
+    gid: "{{ target_gid | default(omit) }}"
     state: present
 
 - name: Ensure user exists
   ansible.builtin.user:
     name: "{{ target_user }}"
+    uid: "{{ target_uid | default(omit) }}"
     shell: /bin/bash
     groups: "{{ target_group }}"
     append: true

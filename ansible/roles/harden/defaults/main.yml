@@ -7,7 +7,6 @@ harden_ufw_allowed_tcp_ports:
   - "22"    # SSH
   - "53"    # DNS (AdGuard Home)
   - "80"    # HTTP (reverse proxy)
-  - "81"    # Nginx Proxy Manager admin
   - "443"   # HTTPS (reverse proxy)
 harden_ufw_allowed_udp_ports:
   - "53"    # DNS (AdGuard Home)
