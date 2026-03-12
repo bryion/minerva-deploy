@@ -13,3 +13,4 @@ compose_sync_secrets:
     DB_PASSWORD: "test-db-pass"
 compose_up_services:
   - testapp
+compose_sync_restart_services: []
