@@ -27,11 +27,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Install Ansible Galaxy roles
-        run: ansible-galaxy install -r ansible/requirements.yml -p ansible/roles
-
-      - name: Install Ansible Galaxy collections
-        run: ansible-galaxy collection install community.docker:3.9.0
+      - name: Install Ansible Galaxy dependencies
+        run: ansible-galaxy install -r ansible/requirements.yml
 
       - name: Write vault password
         run: echo "${{ secrets.VAULT_PASSWORD }}" > .vault_pass

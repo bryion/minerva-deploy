@@ -1,3 +1,0 @@
----
-tailscale_wrapper_authkey: ""
-tailscale_wrapper_args: "--accept-routes"

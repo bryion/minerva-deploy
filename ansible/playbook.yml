@@ -10,7 +10,7 @@
     - harden
 
     # 3. Tailscale: Joins server to tailnet for secure remote access
-    - tailscale
+    - artis3n.tailscale.machine
 
     # 4. Docker Installation: Installs Docker Engine and Docker Compose plugin
     - geerlingguy.docker

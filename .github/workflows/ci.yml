@@ -39,9 +39,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Install Ansible Galaxy dependencies
-        run: |
-          ansible-galaxy install -r ansible/requirements.yml -p ansible/roles
-          ansible-galaxy collection install community.docker:3.9.0
+        run: ansible-galaxy install -r ansible/requirements.yml
 
       - name: Write vault password
         run: echo "${{ secrets.VAULT_PASSWORD }}" > .vault_pass
@@ -59,7 +57,6 @@ jobs:
           - harden
           - compose-sync
           - compose-up
-          - tailscale
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 

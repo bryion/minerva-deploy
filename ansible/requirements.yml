@@ -3,6 +3,9 @@ roles:
   - name: geerlingguy.docker
     src: geerlingguy.docker
     version: "8.0.0"
+
+collections:
   - name: artis3n.tailscale
-    src: artis3n.tailscale
-    version: "v5.0.1"
+    version: "1.2.1"
+  - name: community.docker
+    version: "3.9.0"
