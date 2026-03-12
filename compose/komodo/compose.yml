@@ -15,6 +15,10 @@ services:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     # ports:
     #   - 27017:27017
     volumes:
@@ -36,6 +40,10 @@ services:
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     depends_on:
       mongo:
         condition: service_healthy
@@ -57,6 +65,12 @@ services:
     ## "https://host.docker.internal:8120"
     # extra_hosts:
     #   - host.docker.internal:host-gateway
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9120"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   ## Deploy Periphery container using this block,
   ## or deploy the Periphery binary with systemd using 
@@ -67,6 +81,10 @@ services:
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     env_file: .env
     volumes:
       ## Mount external docker socket
@@ -78,6 +96,12 @@ services:
       ## or docker will get confused. See https://github.com/moghtech/komodo/discussions/180.
       ## Default: /etc/komodo.
       - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8120"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
 volumes:
   # Mongo
