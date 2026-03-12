@@ -7,6 +7,10 @@ services:
     ports:
       - 127.0.0.1:9999:8080
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     healthcheck:
       test: ["CMD", "/dozzle", "healthcheck"]
       interval: 3s

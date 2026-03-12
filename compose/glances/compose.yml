@@ -11,6 +11,10 @@ services:
       - "./glances.conf:/glances/conf/glances.conf:ro"
     environment:
       - "GLANCES_OPT=-w"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     tmpfs:
       - /tmp
     cap_add:
